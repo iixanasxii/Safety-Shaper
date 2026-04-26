@@ -1,0 +1,13 @@
+{
+  "name": "Safety Shaper - قرار في ثانية",
+  "short_name": "Safety Shaper",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#06131f",
+  "theme_color": "#06131f",
+  "orientation": "any",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [],
+  "description": "Mobile and iPad booth game for traffic safety awareness."
+}
