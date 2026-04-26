@@ -6,7 +6,7 @@
     totalRounds: 8,
     feedbackDelayMs: 1350,
     leaderboardLimit: 5,
-    storageKey: "safety-shaper-leaderboard-v5"
+    storageKey: "safety-shaper-leaderboard-v6"
   };
 
   const SCENARIOS = [
@@ -506,7 +506,7 @@
   function registerServiceWorker() {
     if (!("serviceWorker" in navigator)) return;
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("service-worker.js?v=5").catch(() => {});
+      navigator.serviceWorker.register("service-worker.js?v=6").catch(() => {});
     });
   }
 

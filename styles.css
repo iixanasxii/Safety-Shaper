@@ -987,90 +987,43 @@ h1 {
   position: absolute;
   z-index: 6;
   left: 50%;
-  bottom: 2%;
-  width: min(34vw, 230px);
-  min-width: 120px;
-  aspect-ratio: .72;
+  bottom: 1.4%;
+  width: min(35vw, 250px);
+  min-width: 130px;
+  aspect-ratio: 480 / 699;
   transform: translateX(-50%);
+  background-image: url("./assets/car-top-view.png");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.42));
 }
 
-.car-shadow {
+.front-car-model::before {
+  content: "";
   position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 3%;
-  height: 12%;
+  left: 12%;
+  right: 12%;
+  bottom: 4%;
+  height: 14%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,0,0,.75), transparent 70%);
-  filter: blur(8px);
+  background: radial-gradient(circle, rgba(0,0,0,.62), transparent 72%);
+  filter: blur(10px);
+  z-index: -1;
 }
 
-.car-hood {
+.front-car-model::after {
+  content: "";
   position: absolute;
-  left: 22%;
-  right: 22%;
-  bottom: 13%;
-  height: 56%;
-  border-radius: 34% 34% 20% 20%;
-  background: linear-gradient(180deg, #eaffff 0%, #83efff 42%, #327ba0 100%);
-  box-shadow: inset 0 2px 18px rgba(255,255,255,.48), 0 18px 40px rgba(0,0,0,.35);
+  left: 26%;
+  right: 26%;
+  bottom: 5%;
+  height: 20%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(126,240,255,.18), transparent 72%);
+  filter: blur(18px);
+  z-index: -1;
 }
-
-.car-cabin {
-  position: absolute;
-  left: 27%;
-  right: 27%;
-  bottom: 46%;
-  height: 28%;
-  border-radius: 38% 38% 26% 26%;
-  background: linear-gradient(180deg, #f8feff, #86e8ff);
-  box-shadow: inset 0 -10px 18px rgba(25,93,125,.22);
-}
-
-.car-glass {
-  position: absolute;
-  left: 38%;
-  right: 38%;
-  bottom: 52%;
-  height: 15%;
-  border-radius: 40%;
-  background: linear-gradient(180deg, rgba(1,24,40,.78), rgba(31,118,153,.62));
-}
-
-.car-grille {
-  position: absolute;
-  left: 43%;
-  right: 43%;
-  bottom: 23%;
-  height: 14%;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(5,30,43,.74), rgba(21,87,111,.56));
-}
-
-.car-light {
-  position: absolute;
-  bottom: 18%;
-  width: 17%;
-  height: 14%;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #fff6c8, #ffd166);
-  box-shadow: 0 0 30px rgba(255, 209, 102, .55);
-}
-
-.car-light.left { left: 24%; }
-.car-light.right { right: 24%; }
-
-.car-wheel {
-  position: absolute;
-  width: 12%;
-  height: 28%;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #161c24, #353c45);
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,.08);
-}
-
-.car-wheel.w1 { left: 11%; bottom: 17%; }
-.car-wheel.w2 { right: 11%; bottom: 17%; }
 
 .scenario-scene[data-theme="phone"] .model-phone,
 .scenario-scene[data-theme="pedestrian"] .model-pedestrian,
@@ -1097,13 +1050,27 @@ h1 {
   content: "";
   position: absolute;
   left: 50%;
-  top: -28%;
-  width: 36%;
-  height: 32%;
+  top: -30%;
+  width: 33%;
+  aspect-ratio: 480 / 699;
   transform: translateX(-50%);
-  border-radius: 18px 18px 22px 22px;
-  background: linear-gradient(180deg, #ff9ba4, #ff596b 58%, #7c1e2a);
-  box-shadow: 0 14px 30px rgba(0,0,0,.32), 0 0 20px rgba(255,82,99,.22);
+  background-image: url("./assets/car-top-view.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  filter: hue-rotate(300deg) saturate(1.45) brightness(1.05) drop-shadow(0 12px 26px rgba(0,0,0,.34));
+}
+
+.scenario-scene[data-theme="carstop"] .front-car-model::after {
+  content: "";
+  position: absolute;
+  left: 37%;
+  right: 37%;
+  top: -10%;
+  height: 9%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,82,99,.55), transparent 72%);
+  filter: blur(14px);
 }
 
 .scenario-copy {
@@ -1427,7 +1394,7 @@ body.game-mode .topbar,
   }
 
   .front-car-model {
-    width: min(38vw, 205px);
+    width: min(39vw, 220px);
   }
 }
 
@@ -1548,8 +1515,8 @@ body.game-mode .topbar,
   }
 
   .front-car-model {
-    width: min(42vw, 160px);
-    min-width: 112px;
+    width: min(44vw, 174px);
+    min-width: 118px;
     bottom: 0;
   }
 
@@ -1728,7 +1695,7 @@ body.game-mode .topbar,
   }
 
   .front-car-model {
-    width: min(22vw, 130px);
+    width: min(22vw, 138px);
   }
 
   .timer-ring.in-scene {
