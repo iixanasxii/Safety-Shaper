@@ -2,9 +2,9 @@
   "use strict";
 
   const CONFIG = {
-    roundSeconds: 5,
+    roundSeconds: 8,
     totalRounds: 8,
-    feedbackDelayMs: 1250,
+    feedbackDelayMs: 1350,
     leaderboardLimit: 5,
     storageKey: "safety-shaper-leaderboard-v2"
   };
@@ -15,6 +15,8 @@
       title: "إشعار مفاجئ على الجوال",
       text: "أنت تقود بسرعة معتدلة، ظهر إشعار مهم على الشاشة والسيارة أمامك بدأت تهدئ.",
       riskIcon: "📱",
+      theme: "phone",
+      riskLabel: "تشتيت انتباه",
       choices: [
         { label: "أترك الجوال وأزيد الانتباه للطريق", hint: "القرار الأكثر أمانًا", score: 100, safe: true, feedback: "ممتاز. الإشعار ينتظر، لكن الطريق لا ينتظر." },
         { label: "أرد بسرعة وأنا ماسك المقود", hint: "ثانية واحدة قد تكلف كثيرًا", score: 15, feedback: "استخدام الجوال أثناء القيادة يرفع احتمالية الخطأ بشكل كبير." },
@@ -27,6 +29,8 @@
       title: "مشاة عند خط العبور",
       text: "تقترب من ممر مشاة، وهناك شخص يستعد للعبور من جهة الرصيف.",
       riskIcon: "🚶",
+      theme: "pedestrian",
+      riskLabel: "مشاة قريبون",
       choices: [
         { label: "أخفف السرعة وأتوقف بأمان", hint: "أولوية المشاة", score: 100, safe: true, feedback: "قرار صحيح. احترام ممر المشاة يحمي الجميع." },
         { label: "أستخدم البوري عشان ينتبه", hint: "تصرف مربك", score: 25, feedback: "التنبيه لا يغني عن التوقف وإعطاء الأولوية." },
@@ -38,7 +42,9 @@
       type: "مسافة الأمان",
       title: "السيارة الأمامية توقفت فجأة",
       text: "السيارة أمامك فرملت بسرعة. لديك لحظات قليلة لاتخاذ القرار.",
-      riskIcon: "⚠",
+      riskIcon: "🚗",
+      theme: "carstop",
+      riskLabel: "توقف مفاجئ",
       choices: [
         { label: "أفرمل تدريجيًا وأحافظ على المسار", hint: "سيطرة وهدوء", score: 100, safe: true, feedback: "ممتاز. الهدوء ومسافة الأمان يعطيانك وقتًا للتصرف." },
         { label: "ألتف بقوة لليمين فورًا", hint: "قد تدخل على مركبة أخرى", score: 20, feedback: "الالتفاف المفاجئ قد يحول موقفًا واحدًا إلى حادث أكبر." },
@@ -51,6 +57,8 @@
       title: "الإشارة تحولت إلى الأصفر",
       text: "أنت بعيد نسبيًا عن التقاطع، والإشارة أصبحت صفراء قبل وصولك.",
       riskIcon: "🚦",
+      theme: "signal",
+      riskLabel: "تقاطع أمامك",
       choices: [
         { label: "أهدئ وأستعد للتوقف قبل التقاطع", hint: "قرار آمن", score: 100, safe: true, feedback: "صحيح. الأصفر يعني الاستعداد للتوقف عندما يكون ذلك آمنًا." },
         { label: "أزيد السرعة لألحق الإشارة", hint: "سباق غير ضروري", score: 10, feedback: "زيادة السرعة عند التقاطع ترفع احتمالية الاصطدام." },
@@ -63,6 +71,8 @@
       title: "لوحة منطقة مدارس أمامك",
       text: "الطريق هادئ، لكنك دخلت منطقة مدارس وقد يظهر أطفال أو حافلات في أي لحظة.",
       riskIcon: "🏫",
+      theme: "school",
+      riskLabel: "منطقة مدارس",
       choices: [
         { label: "أخفض السرعة وأراقب الجانبين", hint: "سلامة استباقية", score: 100, safe: true, feedback: "ممتاز. في مناطق المدارس، الخطر قد يظهر فجأة." },
         { label: "أستمر بنفس السرعة لأن الطريق فاضي", hint: "افتراض خطير", score: 25, feedback: "هدوء الطريق لا يعني خلوه من المخاطر." },
@@ -75,6 +85,8 @@
       title: "الطريق مبلل والرؤية أقل",
       text: "بدأ المطر، الطريق صار زلقًا، والسيارات حولك تتحرك بحذر.",
       riskIcon: "🌧",
+      theme: "rain",
+      riskLabel: "سطح زلق",
       choices: [
         { label: "أخفف السرعة وأزيد المسافة", hint: "أفضل تصرف", score: 100, safe: true, feedback: "قرار ممتاز. الطريق المبلل يحتاج مسافة توقف أطول." },
         { label: "أستخدم الأنوار العالية طوال الوقت", hint: "قد تزعج الآخرين", score: 35, feedback: "الأفضل استخدام إضاءة مناسبة دون إبهار السائقين." },
@@ -87,6 +99,8 @@
       title: "تسمع صوت إسعاف خلفك",
       text: "سيارة إسعاف تقترب من الخلف وتحتاج إلى مسار آمن للمرور.",
       riskIcon: "🚑",
+      theme: "emergency",
+      riskLabel: "طوارئ قادمة",
       choices: [
         { label: "أفسح الطريق بهدوء عندما يكون ذلك آمنًا", hint: "قرار مسؤول", score: 100, safe: true, feedback: "ممتاز. إفساح الطريق للطوارئ قد ينقذ حياة." },
         { label: "أتوقف فجأة في منتصف المسار", hint: "خطر على الجميع", score: 15, feedback: "التوقف المفاجئ قد يربك السائقين ويعطل مركبة الطوارئ." },
@@ -95,22 +109,12 @@
       ]
     },
     {
-      type: "دراجة وسكوتر",
-      title: "سكوتر قريب من طرف الطريق",
-      text: "ترى مستخدم سكوتر على يمين الطريق، ومساره غير ثابت بسبب عائق أمامه.",
-      riskIcon: "🛴",
-      choices: [
-        { label: "أخفف وأترك مسافة جانبية كافية", hint: "مساحة أمان", score: 100, safe: true, feedback: "قرار ممتاز. مستخدمو السكوتر والدراجات يحتاجون مساحة آمنة." },
-        { label: "أتجاوز بالقرب منه بسرعة", hint: "خطر الاحتكاك", score: 5, feedback: "التجاوز القريب قد يسبب سقوطًا أو ارتباكًا." },
-        { label: "أستخدم البوري باستمرار", hint: "يربكه", score: 20, feedback: "التنبيه المبالغ فيه قد يربك مستخدم الطريق." },
-        { label: "أتجاهله لأنه على الطرف", hint: "الخطر قد يتحرك", score: 25, feedback: "الوجود على طرف الطريق لا يعني أن المسار ثابت." }
-      ]
-    },
-    {
       type: "مخرج مفاجئ",
       title: "اقتربت من المخرج متأخرًا",
       text: "اكتشفت أن المخرج قريب جدًا، وتحتاج تغيير مسارين للوصول له.",
       riskIcon: "↗",
+      theme: "exit",
+      riskLabel: "قرار متأخر",
       choices: [
         { label: "أكمل للطريق التالي بدل المخاطرة", hint: "قرار ناضج", score: 100, safe: true, feedback: "ممتاز. تفويت مخرج أفضل من حادث." },
         { label: "أقطع المسارات بسرعة", hint: "خطر كبير", score: 0, feedback: "قطع المسارات في آخر لحظة من أخطر السلوكيات." },
@@ -123,6 +127,8 @@
       title: "راكب خلفي بدون حزام",
       text: "قبل التحرك، لاحظت أن أحد الركاب في الخلف لم يربط حزام الأمان.",
       riskIcon: "🔒",
+      theme: "seatbelt",
+      riskLabel: "سلامة داخل المركبة",
       choices: [
         { label: "لا أتحرك حتى يربط الجميع الحزام", hint: "سلامة قبل الحركة", score: 100, safe: true, feedback: "صحيح. السلامة تبدأ قبل تشغيل السيارة." },
         { label: "أتحرك ببطء وأطلب منه يربطه لاحقًا", hint: "خطر قائم", score: 35, feedback: "حتى السرعات البطيئة قد تكون خطرة بدون حزام." },
@@ -154,26 +160,27 @@
   };
 
   const els = {
+    appShell: $("#appShell"),
+    topbar: $("#topbar"),
     playerName: $("#playerName"),
     startBtn: $("#startBtn"),
     howBtn: $("#howBtn"),
     closeHowBtn: $("#closeHowBtn"),
     startFromHowBtn: $("#startFromHowBtn"),
     activePlayer: $("#activePlayer"),
-    scoreText: $("#scoreText"),
     roundText: $("#roundText"),
     totalRoundsText: $("#totalRoundsText"),
-    safetyPercent: $("#safetyPercent"),
-    safetyFill: $("#safetyFill"),
     timeLeft: $("#timeLeft"),
     timerProgress: $("#timerProgress"),
     scenarioType: $("#scenarioType"),
+    scenarioRiskLabel: $("#scenarioRiskLabel"),
     scenarioTitle: $("#scenarioTitle"),
     scenarioText: $("#scenarioText"),
     choiceGrid: $("#choiceGrid"),
     feedbackCard: $("#feedbackCard"),
     feedbackTitle: $("#feedbackTitle"),
     feedbackText: $("#feedbackText"),
+    scenarioScene: $("#scenarioScene"),
     dynamicRisk: $("#dynamicRisk"),
     finalPercent: $("#finalPercent"),
     resultTitle: $("#resultTitle"),
@@ -188,12 +195,13 @@
   };
 
   function showScreen(name) {
-    Object.values(screens).forEach((screen) => screen.classList.remove("active"));
-    screens[name].classList.add("active");
+    Object.entries(screens).forEach(([key, screen]) => {
+      screen.classList.toggle("active", key === name);
+    });
 
-    const isPlaying = name === "game";
-    document.body.classList.toggle("is-playing", isPlaying);
-    document.getElementById("appShell")?.classList.toggle("game-mode", isPlaying);
+    const inGame = name === "game";
+    els.appShell.classList.toggle("game-mode", inGame);
+    document.body.classList.toggle("game-mode", inGame);
   }
 
   function shuffle(items) {
@@ -216,7 +224,6 @@
 
     els.activePlayer.textContent = state.playerName;
     els.totalRoundsText.textContent = String(CONFIG.totalRounds);
-    updateScoreUI();
 
     showScreen("game");
     renderScenario();
@@ -229,9 +236,11 @@
     const scenario = state.scenarios[state.currentIndex];
     els.roundText.textContent = String(state.currentIndex + 1);
     els.scenarioType.textContent = scenario.type;
+    els.scenarioRiskLabel.textContent = scenario.riskLabel || "خطر أمامك";
     els.scenarioTitle.textContent = scenario.title;
     els.scenarioText.textContent = scenario.text;
-    els.dynamicRisk.textContent = scenario.riskIcon || "!";
+    els.dynamicRisk.textContent = scenario.riskIcon || "⚠";
+    els.scenarioScene.dataset.theme = scenario.theme || "generic";
     els.feedbackCard.classList.remove("show");
     els.feedbackTitle.textContent = "";
     els.feedbackText.textContent = "";
@@ -271,8 +280,12 @@
       els.timeLeft.textContent = remainingSeconds.toFixed(1);
       els.timerProgress.style.strokeDashoffset = String(offset);
 
-      if (remainingSeconds <= 1.1) {
+      if (remainingSeconds <= 2.2) {
         els.timerProgress.style.stroke = "var(--amber)";
+      }
+
+      if (remainingSeconds <= 0.8) {
+        els.timerProgress.style.stroke = "var(--red)";
       }
 
       if (remainingMs <= 0) {
@@ -298,8 +311,8 @@
     state.fastestDecision =
       state.fastestDecision === null ? decisionTime : Math.min(state.fastestDecision, decisionTime);
 
-    const timeBonus = Math.max(0, Math.round((CONFIG.roundSeconds - decisionTime) * 8));
-    const earned = Math.min(115, Math.round(choice.score + (choice.safe ? timeBonus : 0)));
+    const timeBonus = Math.max(0, Math.round((CONFIG.roundSeconds - decisionTime) * 4));
+    const earned = Math.min(110, Math.round(choice.score + (choice.safe ? timeBonus : 0)));
 
     state.score += earned;
 
@@ -314,8 +327,6 @@
     }
 
     disableChoices();
-    updateScoreUI();
-
     window.setTimeout(nextRound, CONFIG.feedbackDelayMs);
   }
 
@@ -334,10 +345,9 @@
   function markCorrectChoice() {
     const scenario = state.scenarios[state.currentIndex];
     const buttons = [...els.choiceGrid.querySelectorAll(".choice-btn")];
-
+    const correct = scenario.choices.find((choice) => choice.safe);
     buttons.forEach((button) => {
       const strong = button.querySelector("strong");
-      const correct = scenario.choices.find((choice) => choice.safe);
       if (correct && strong && strong.textContent === correct.label) {
         button.classList.add("correct");
       }
@@ -366,17 +376,8 @@
     renderScenario();
   }
 
-  function updateScoreUI() {
-    const maxScore = CONFIG.totalRounds * 115;
-    const percent = Math.max(0, Math.min(100, Math.round((state.score / maxScore) * 100)));
-
-    els.scoreText.textContent = String(state.score);
-    els.safetyPercent.textContent = `${percent}%`;
-    els.safetyFill.style.width = `${percent}%`;
-  }
-
   function finishGame() {
-    const maxScore = CONFIG.totalRounds * 115;
+    const maxScore = CONFIG.totalRounds * 110;
     const percent = Math.max(0, Math.min(100, Math.round((state.score / maxScore) * 100)));
     const rank = getRank(percent);
 
@@ -404,10 +405,9 @@
       return {
         title: "أنت Safety Shaper محترف",
         short: "Elite Shaper",
-        message: "قراراتك سريعة وواعية. هذا هو مستوى السلامة الذي تبنى عليه مدن المستقبل."
+        message: "قراراتك سريعة وواعية. هذا هو مستوى السلامة الذي تُبنى عليه مدن المستقبل."
       };
     }
-
     if (percent >= 75) {
       return {
         title: "أنت Safety Shaper",
@@ -415,7 +415,6 @@
         message: "أداؤك ممتاز. انتبه للتفاصيل الصغيرة، لأنها تصنع الفرق الكبير على الطريق."
       };
     }
-
     if (percent >= 55) {
       return {
         title: "قريب من مستوى Safety Shaper",
@@ -423,9 +422,8 @@
         message: "لديك وعي جيد، لكن بعض القرارات تحتاج هدوءًا وتوقعًا أعلى للمخاطر."
       };
     }
-
     return {
-      title: "تحتاج إعادة ضبط للغريزة المرورية",
+      title: "حاول مرة ثانية",
       short: "Awareness Builder",
       message: "البداية الجيدة هي الوعي. جرّب مرة ثانية وركز على القرار الآمن قبل القرار السريع."
     };
@@ -449,7 +447,7 @@
     try {
       window.localStorage.setItem(CONFIG.storageKey, JSON.stringify(next));
     } catch {
-      // If localStorage is blocked, the game still works.
+      // Ignore storage errors.
     }
   }
 
@@ -494,11 +492,8 @@
 
   function registerServiceWorker() {
     if (!("serviceWorker" in navigator)) return;
-
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("service-worker.js").catch(() => {
-        // Offline support is optional. The game remains fully usable online.
-      });
+      navigator.serviceWorker.register("service-worker.js?v=4").catch(() => {});
     });
   }
 

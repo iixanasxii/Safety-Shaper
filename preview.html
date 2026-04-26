@@ -14,9 +14,7 @@
       --cyan: #7ef0ff;
       --green: #71ffb5;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       min-height: 100vh;
@@ -27,15 +25,13 @@
       color: var(--text);
       font-family: "Inter", "SF Pro Display", "Segoe UI", Tahoma, Arial, sans-serif;
     }
-
     .lab {
       min-height: 100vh;
       display: grid;
       grid-template-columns: 320px 1fr;
-      gap: 22px;
-      padding: 22px;
+      gap: 18px;
+      padding: 18px;
     }
-
     aside {
       border: 1px solid var(--line);
       border-radius: 28px;
@@ -44,28 +40,24 @@
       box-shadow: 0 24px 70px rgba(0,0,0,.36);
       align-self: start;
       position: sticky;
-      top: 22px;
+      top: 18px;
     }
-
     h1 {
       margin: 0 0 8px;
       font-size: 28px;
       letter-spacing: -.04em;
     }
-
     p {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       color: var(--muted);
       line-height: 1.7;
     }
-
     .device-buttons {
       display: grid;
       gap: 10px;
       margin: 18px 0;
     }
-
-    button {
+    button, a.ctrl {
       min-height: 48px;
       border: 1px solid var(--line);
       border-radius: 16px;
@@ -74,14 +66,22 @@
       font: inherit;
       font-weight: 800;
       cursor: pointer;
+      text-decoration: none;
+      display: grid;
+      place-items: center;
+      padding: 0 12px;
     }
-
     button.active {
       color: #04111e;
       background: linear-gradient(135deg, var(--cyan), var(--green));
       border-color: transparent;
     }
-
+    .row-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
     .hint {
       padding: 14px;
       border-radius: 18px;
@@ -91,33 +91,29 @@
       font-size: 14px;
       line-height: 1.7;
     }
-
     .stage {
       display: grid;
       place-items: center;
-      min-height: calc(100vh - 44px);
+      min-height: calc(100vh - 36px);
       overflow: auto;
       border: 1px solid var(--line);
       border-radius: 32px;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+      background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
       box-shadow: inset 0 0 60px rgba(126,240,255,.04);
-      padding: 28px;
+      padding: 18px;
     }
-
     .device {
       position: relative;
       width: var(--w);
       height: var(--h);
       max-width: 100%;
-      max-height: calc(100vh - 105px);
+      max-height: calc(100vh - 76px);
       padding: 14px;
       border-radius: 42px;
       background: linear-gradient(145deg, #101820, #02070b);
       box-shadow: 0 30px 90px rgba(0,0,0,.58), inset 0 0 0 1px rgba(255,255,255,.08);
       transition: width .25s ease, height .25s ease;
     }
-
     .device::before {
       content: "";
       position: absolute;
@@ -129,42 +125,23 @@
       border-radius: 999px;
       background: rgba(255,255,255,.22);
     }
-
     iframe {
       width: 100%;
       height: 100%;
       border: 0;
       border-radius: 30px;
       background: #06131f;
-      overflow: hidden;
     }
-
     .full .device {
-      width: min(1280px, 100%);
-      height: min(820px, calc(100vh - 105px));
+      width: min(1360px, 100%);
+      height: min(860px, calc(100vh - 76px));
       border-radius: 26px;
     }
-
-    .full .device::before {
-      display: none;
-    }
-
-    .full iframe {
-      border-radius: 18px;
-    }
-
+    .full .device::before { display: none; }
+    .full iframe { border-radius: 18px; }
     @media (max-width: 960px) {
-      .lab {
-        grid-template-columns: 1fr;
-      }
-
-      aside {
-        position: static;
-      }
-
-      .device {
-        max-height: none;
-      }
+      .lab { grid-template-columns: 1fr; }
+      aside { position: static; }
     }
   </style>
 </head>
@@ -172,6 +149,7 @@
   <main class="lab">
     <aside>
       <h1>Preview Lab</h1>
+      <p>هذه الصفحة مخصصة لتجربة اللعبة من اللابتوب قبل رفعها أو أثناء الاختبار.</p>
 
       <div class="device-buttons">
         <button class="active" data-w="390px" data-h="844px">جوال Portrait</button>
@@ -181,13 +159,19 @@
         <button data-full="true">شاشة كاملة تقريبًا</button>
       </div>
 
+      <div class="row-controls">
+        <button id="reloadFrame">إعادة تحميل</button>
+        <a class="ctrl" href="index.html" target="_blank" rel="noopener">فتح الصفحة مباشرة</a>
+      </div>
+
       <div class="hint">
+        إذا عدلت الملفات ورفعتها على GitHub Pages، جرب هنا أولًا ثم اضغط إعادة تحميل أو افتح الصفحة مباشرة.
       </div>
     </aside>
 
     <section class="stage" id="stage">
       <div class="device" id="device" style="--w: 390px; --h: 844px;">
-        <iframe src="index.html" title="Safety Shaper game preview"></iframe>
+        <iframe id="previewFrame" src="index.html?v=4" title="Safety Shaper game preview"></iframe>
       </div>
     </section>
   </main>
@@ -195,7 +179,9 @@
   <script>
     const stage = document.getElementById("stage");
     const device = document.getElementById("device");
-    const buttons = [...document.querySelectorAll("button")];
+    const frame = document.getElementById("previewFrame");
+    const buttons = [...document.querySelectorAll(".device-buttons button")];
+    const reloadBtn = document.getElementById("reloadFrame");
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -213,6 +199,10 @@
         device.style.setProperty("--w", button.dataset.w);
         device.style.setProperty("--h", button.dataset.h);
       });
+    });
+
+    reloadBtn.addEventListener("click", () => {
+      frame.src = `index.html?v=${Date.now()}`;
     });
   </script>
 </body>

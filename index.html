@@ -9,20 +9,19 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Safety Shaper | قرار في ثانية</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
-
 <body>
   <main class="app-shell" id="appShell">
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
     <div class="grid-floor" aria-hidden="true"></div>
 
-    <header class="topbar">
+    <header class="topbar" id="topbar">
       <div class="brand-lockup">
         <div class="logo-slot" aria-label="مكان شعار الجهة">
           <img src="assets/logo.png" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-          <span class="logo-fallback"><br>الشعار</span>
+          <span class="logo-fallback">ضع<br>الشعار</span>
         </div>
         <div>
           <p class="eyebrow">NEOM Global Shapers Booth Experience</p>
@@ -40,9 +39,9 @@
       <div class="hero-panel">
         <div class="hero-copy">
           <p class="micro-title">تحدي السلامة المرورية</p>
-          <h2 id="startTitle">هل تقدر تتخذ القرار الصحيح قبل فوات الأوان؟</h2>
+          <h2 id="startTitle">هل تتخذ القرار الصحيح قبل فوات الأوان؟</h2>
           <p class="hero-text">
-            لعبة تفاعلية. راقب الموقف، اختر التصرف الآمن بسرعة،
+            تجربة تفاعلية سريعة للبوث. راقب الموقف، خذ قرارك خلال ثوانٍ،
             واكتشف هل أنت Safety Shaper حقيقي.
           </p>
 
@@ -75,8 +74,6 @@
           </div>
         </div>
       </div>
-
-
     </section>
 
     <section class="screen" id="howScreen" aria-labelledby="howTitle">
@@ -85,79 +82,93 @@
         <p class="micro-title">طريقة اللعب</p>
         <h2 id="howTitle">اختر القرار الآمن بسرعة</h2>
         <div class="rules-grid">
-          <div><b>1</b><span>سيظهر لك موقف مروري سريع.</span></div>
-          <div><b>2</b><span>اختر أفضل تصرف قبل انتهاء المؤقت.</span></div>
-          <div><b>3</b><span>كل قرار صحيح يرفع نقاطك ومستوى السلامة.</span></div>
-          <div><b>4</b><span>في النهاية ستحصل على لقبك كـ Safety Shaper.</span></div>
+          <div><b>1</b><span>سيظهر لك موقف مروري سريع وواضح.</span></div>
+          <div><b>2</b><span>عندك 8 ثوانٍ فقط لاتخاذ القرار.</span></div>
+          <div><b>3</b><span>كل قرار صحيح يرفع نتيجتك النهائية.</span></div>
+          <div><b>4</b><span>في النهاية يظهر لك تقييمك النهائي داخل البوث.</span></div>
         </div>
         <button class="primary-btn wide" id="startFromHowBtn" type="button">جاهز للتحدي</button>
       </div>
     </section>
 
     <section class="screen" id="gameScreen" aria-live="polite">
-      <div class="game-layout">
-        <aside class="status-panel">
-          <div class="stat-block">
-            <span>المشارك</span>
-            <strong id="activePlayer">ضيف البوث</strong>
-          </div>
-          <div class="stat-block">
-            <span>النقاط</span>
-            <strong id="scoreText">0</strong>
-          </div>
-          <div class="stat-block">
-            <span>الموقف</span>
-            <strong><span id="roundText">1</span>/<span id="totalRoundsText">8</span></strong>
+      <section class="game-stage">
+        <div class="game-stage-top">
+          <div class="stage-badge" id="roundBadge"><span id="roundText">1</span>/<span id="totalRoundsText">8</span></div>
+          <div class="stage-badge player-badge" id="activePlayer">ضيف البوث</div>
+        </div>
+
+        <div class="scene-panel">
+          <div class="scene-overlay-top">
+            <div class="scene-pill" id="scenarioType">موقف سريع</div>
+            <div class="scene-pill danger-pill" id="scenarioRiskLabel">خطر أمامك</div>
           </div>
 
-          <div class="safety-meter">
-            <div class="meter-head">
-              <span>مؤشر السلامة</span>
-              <strong id="safetyPercent">0%</strong>
-            </div>
-            <div class="meter-track">
-              <div id="safetyFill"></div>
-            </div>
+          <div class="timer-ring in-scene" aria-label="المؤقت">
+            <svg viewBox="0 0 120 120">
+              <circle class="timer-bg" cx="60" cy="60" r="52"></circle>
+              <circle class="timer-progress" id="timerProgress" cx="60" cy="60" r="52"></circle>
+            </svg>
+            <strong id="timeLeft">8.0</strong>
           </div>
 
-          <div class="mini-tip">
-            <span>رسالة البوث</span>
-            <p>القرار الصحيح في لحظة قد يمنع حادثًا كاملًا.</p>
-          </div>
-        </aside>
-
-        <section class="challenge-card">
-          <div class="scenario-scene" id="scenarioScene" aria-hidden="true">
-            <div class="scene-sky"></div>
-            <div class="scene-road">
-              <span class="dash d1"></span>
-              <span class="dash d2"></span>
-              <span class="dash d3"></span>
-              <div class="player-car-mini"></div>
-              <div class="dynamic-risk" id="dynamicRisk">!</div>
+          <div class="scenario-scene scenario-generic" id="scenarioScene" aria-hidden="true" data-theme="generic">
+            <div class="scene-sky">
+              <div class="sky-glow"></div>
+              <div class="city-depth city-back"></div>
+              <div class="city-depth city-front"></div>
             </div>
 
-            <div class="timer-ring" aria-label="المؤقت">
-              <svg viewBox="0 0 120 120">
-                <circle class="timer-bg" cx="60" cy="60" r="52"></circle>
-                <circle class="timer-progress" id="timerProgress" cx="60" cy="60" r="52"></circle>
-              </svg>
-              <strong id="timeLeft">5.0</strong>
+            <div class="road-perspective-3d">
+              <div class="road-surface"></div>
+              <div class="road-lines road-left"></div>
+              <div class="road-lines road-center"></div>
+              <div class="road-lines road-right"></div>
+              <div class="road-shoulder shoulder-left"></div>
+              <div class="road-shoulder shoulder-right"></div>
+              <div class="road-light road-light-left"></div>
+              <div class="road-light road-light-right"></div>
+
+              <div class="hazard-car" id="hazardCar">
+                <div class="hazard-shadow"></div>
+                <div class="hazard-body"></div>
+                <div class="hazard-window"></div>
+                <div class="hazard-lights"></div>
+              </div>
+
+              <div class="hazard-object" id="hazardObject">
+                <div class="hazard-core"></div>
+                <div class="hazard-icon" id="dynamicRisk">⚠</div>
+              </div>
+
+              <div class="player-car-3d">
+                <div class="player-shadow"></div>
+                <div class="player-body"></div>
+                <div class="player-roof"></div>
+                <div class="player-window"></div>
+                <div class="player-light left"></div>
+                <div class="player-light right"></div>
+                <div class="wheel wheel-fl"></div>
+                <div class="wheel wheel-fr"></div>
+                <div class="wheel wheel-rl"></div>
+                <div class="wheel wheel-rr"></div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <p class="scenario-type" id="scenarioType">موقف سريع</p>
+        <div class="scenario-copy">
           <h2 id="scenarioTitle">انتبه للطريق</h2>
           <p class="scenarioText" id="scenarioText">اختر القرار الصحيح.</p>
+        </div>
 
-          <div class="choice-grid" id="choiceGrid"></div>
+        <div class="choice-grid" id="choiceGrid"></div>
 
-          <div class="feedback-card" id="feedbackCard">
-            <strong id="feedbackTitle"></strong>
-            <p id="feedbackText"></p>
-          </div>
-        </section>
-      </div>
+        <div class="feedback-card" id="feedbackCard">
+          <strong id="feedbackTitle"></strong>
+          <p id="feedbackText"></p>
+        </div>
+      </section>
     </section>
 
     <section class="screen" id="resultScreen" aria-labelledby="resultTitle">
@@ -170,17 +181,22 @@
           <span>Safety Shaper</span>
         </div>
 
-        <p class="micro-title">نتيجتك النهائية</p>
+        <p class="micro-title">النتيجة النهائية</p>
         <h2 id="resultTitle">أنت Safety Shaper</h2>
-        <div class="score-orb">
-          <span id="finalPercent">0%</span>
-        </div>
-        <p class="result-message" id="resultMessage">قرار واحد في ثانية ممكن ينقذ حياة.</p>
 
-        <div class="result-stats">
-          <div><span>إجابات صحيحة</span><strong id="correctCount">0</strong></div>
-          <div><span>أسرع قرار</span><strong id="fastestDecision">0.0s</strong></div>
-          <div><span>اللقب</span><strong id="rankText">Safety Shaper</strong></div>
+        <div class="result-main">
+          <div class="score-orb">
+            <span id="finalPercent">0%</span>
+          </div>
+
+          <div class="result-side">
+            <p class="result-message" id="resultMessage">قرار واحد في ثانية ممكن ينقذ حياة.</p>
+            <div class="result-stats">
+              <div><span>إجابات صحيحة</span><strong id="correctCount">0</strong></div>
+              <div><span>أسرع قرار</span><strong id="fastestDecision">0.0s</strong></div>
+              <div><span>اللقب</span><strong id="rankText">Safety Shaper</strong></div>
+            </div>
+          </div>
         </div>
 
         <div class="leaderboard" id="leaderboardBox">
@@ -199,6 +215,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>

@@ -1,27 +1,25 @@
-const CACHE_NAME = "safety-shaper-v5-fullscreen";
+const CACHE_NAME = "safety-shaper-v4";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css",
-  "./script.js",
+  "./styles.css?v=4",
+  "./script.js?v=4",
   "./manifest.json",
+  "./preview.html",
   "./assets/logo.png"
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(FILES_TO_CACHE.filter(Boolean)))
-      .catch(() => Promise.resolve())
+      .then((cache) => cache.addAll(FILES_TO_CACHE).catch(() => Promise.resolve()))
   );
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((key) => key === CACHE_NAME ? undefined : caches.delete(key)))
-    )
+    caches.keys().then((keys) => Promise.all(keys.map((key) => key === CACHE_NAME ? undefined : caches.delete(key))))
   );
   self.clients.claim();
 });
