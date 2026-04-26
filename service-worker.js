@@ -1,9 +1,9 @@
-const CACHE_NAME = "safety-shaper-v4";
+const CACHE_NAME = "safety-shaper-v5";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./styles.css?v=4",
-  "./script.js?v=4",
+  "./styles.css?v=5",
+  "./script.js?v=5",
   "./manifest.json",
   "./preview.html",
   "./assets/logo.png"

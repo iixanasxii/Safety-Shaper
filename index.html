@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Safety Shaper | قرار في ثانية</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <main class="app-shell" id="appShell">
@@ -113,46 +113,76 @@
           </div>
 
           <div class="scenario-scene scenario-generic" id="scenarioScene" aria-hidden="true" data-theme="generic">
-            <div class="scene-sky">
-              <div class="sky-glow"></div>
-              <div class="city-depth city-back"></div>
-              <div class="city-depth city-front"></div>
+            <div class="sim-sky">
+              <div class="sim-sun"></div>
+              <div class="sim-city city-layer-back"></div>
+              <div class="sim-city city-layer-front"></div>
             </div>
 
-            <div class="road-perspective-3d">
-              <div class="road-surface"></div>
-              <div class="road-lines road-left"></div>
-              <div class="road-lines road-center"></div>
-              <div class="road-lines road-right"></div>
-              <div class="road-shoulder shoulder-left"></div>
-              <div class="road-shoulder shoulder-right"></div>
-              <div class="road-light road-light-left"></div>
-              <div class="road-light road-light-right"></div>
+            <div class="sim-road-wrap">
+              <div class="sim-road"></div>
+              <div class="road-edge road-edge-left"></div>
+              <div class="road-edge road-edge-right"></div>
+              <div class="lane-stream lane-stream-left"></div>
+              <div class="lane-stream lane-stream-center"></div>
+              <div class="lane-stream lane-stream-right"></div>
+              <div class="road-glow"></div>
+            </div>
 
-              <div class="hazard-car" id="hazardCar">
-                <div class="hazard-shadow"></div>
-                <div class="hazard-body"></div>
-                <div class="hazard-window"></div>
-                <div class="hazard-lights"></div>
+            <div class="hazard-focus" id="hazardFocus">
+              <div class="hazard-beacon">
+                <span id="dynamicRisk">⚠</span>
               </div>
+              <strong id="hazardSceneTitle">خطر أمامك</strong>
+              <small id="hazardSceneHint">اتخذ القرار الآمن</small>
+            </div>
 
-              <div class="hazard-object" id="hazardObject">
-                <div class="hazard-core"></div>
-                <div class="hazard-icon" id="dynamicRisk">⚠</div>
-              </div>
+            <div class="scene-model model-signal" aria-hidden="true">
+              <div class="signal-pole"></div>
+              <div class="signal-box"><i></i><i></i><i></i></div>
+            </div>
 
-              <div class="player-car-3d">
-                <div class="player-shadow"></div>
-                <div class="player-body"></div>
-                <div class="player-roof"></div>
-                <div class="player-window"></div>
-                <div class="player-light left"></div>
-                <div class="player-light right"></div>
-                <div class="wheel wheel-fl"></div>
-                <div class="wheel wheel-fr"></div>
-                <div class="wheel wheel-rl"></div>
-                <div class="wheel wheel-rr"></div>
-              </div>
+            <div class="scene-model model-pedestrian" aria-hidden="true">
+              <div class="person-head"></div>
+              <div class="person-body"></div>
+              <div class="person-leg l1"></div>
+              <div class="person-leg l2"></div>
+            </div>
+
+            <div class="scene-model model-phone" aria-hidden="true">
+              <div class="phone-card">رسالة جديدة</div>
+            </div>
+
+            <div class="scene-model model-school" aria-hidden="true">
+              <div class="school-sign">SCHOOL</div>
+            </div>
+
+            <div class="scene-model model-rain" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="scene-model model-emergency" aria-hidden="true">
+              <div class="siren-car"></div>
+            </div>
+
+            <div class="scene-model model-exit" aria-hidden="true">
+              <div class="exit-board">↗ EXIT</div>
+            </div>
+
+            <div class="scene-model model-seatbelt" aria-hidden="true">
+              <div class="seatbelt-model">⌁</div>
+            </div>
+
+            <div class="front-car-model">
+              <div class="car-shadow"></div>
+              <div class="car-hood"></div>
+              <div class="car-cabin"></div>
+              <div class="car-glass"></div>
+              <div class="car-grille"></div>
+              <div class="car-light left"></div>
+              <div class="car-light right"></div>
+              <div class="car-wheel w1"></div>
+              <div class="car-wheel w2"></div>
             </div>
           </div>
         </div>
@@ -215,6 +245,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>

@@ -441,13 +441,13 @@ h1 {
 .modal-card,
 .result-card {
   width: min(100%, 980px);
-  height: 100%;
   margin: 0 auto;
   padding: 24px;
 }
 
 .modal-card {
-  max-height: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
 .icon-btn {
@@ -489,25 +489,26 @@ h1 {
   line-height: 1.7;
 }
 
+/* Fullscreen game mode */
 .game-stage {
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto auto auto;
-  gap: 10px;
-  padding: 12px;
+  gap: 9px;
+  padding: 10px;
 }
 
 .game-stage-top {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
 }
 
 .stage-badge {
-  min-width: 94px;
-  padding: 10px 14px;
+  min-width: 86px;
+  padding: 9px 12px;
   border-radius: 16px;
   border: 1px solid rgba(126, 240, 255, 0.16);
   background: rgba(255,255,255,0.05);
@@ -527,7 +528,7 @@ h1 {
   position: relative;
   min-height: 0;
   overflow: hidden;
-  border-radius: 26px;
+  border-radius: 24px;
   border: 1px solid rgba(126, 240, 255, 0.16);
   background: linear-gradient(180deg, rgba(3, 19, 33, 0.66), rgba(4, 11, 19, 0.95));
 }
@@ -537,20 +538,21 @@ h1 {
   top: 10px;
   right: 12px;
   left: 12px;
-  z-index: 4;
+  z-index: 8;
   display: flex;
   justify-content: space-between;
   gap: 10px;
   align-items: center;
+  pointer-events: none;
 }
 
 .scene-pill {
-  padding: 10px 14px;
+  padding: 9px 12px;
   border-radius: 999px;
   border: 1px solid rgba(126, 240, 255, 0.18);
-  background: rgba(3, 20, 34, 0.58);
+  background: rgba(3, 20, 34, 0.62);
   backdrop-filter: blur(14px);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
 }
 
@@ -566,9 +568,9 @@ h1 {
 
 .timer-ring.in-scene {
   position: absolute;
-  top: 14px;
-  left: 14px;
-  z-index: 4;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
 }
 
 .timer-ring svg {
@@ -609,291 +611,500 @@ h1 {
   inset: 0;
   overflow: hidden;
   isolation: isolate;
-}
-
-.scene-sky {
-  position: absolute;
-  inset: 0 0 46%;
   background:
-    radial-gradient(circle at 50% 4%, rgba(126, 240, 255, 0.24), transparent 25%),
-    linear-gradient(180deg, #0a2b48 0%, #06192d 48%, #031220 100%);
+    radial-gradient(circle at 50% 6%, rgba(126,240,255,.16), transparent 32%),
+    linear-gradient(180deg, #0a2b48 0%, #06192d 40%, #020a12 100%);
 }
 
-.sky-glow {
+.sim-sky {
   position: absolute;
-  width: 44%;
-  height: 44%;
-  top: -10%;
-  left: 28%;
+  inset: 0 0 45%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.sim-sun {
+  position: absolute;
+  top: -16%;
+  left: 50%;
+  width: 40%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(126,240,255,.22), transparent 70%);
-  filter: blur(18px);
+  background: radial-gradient(circle, rgba(126,240,255,.26), transparent 66%);
+  filter: blur(10px);
 }
 
-.city-depth {
+.sim-city {
   position: absolute;
-  inset: auto 6% 0 6%;
-  height: 34%;
-  background-repeat: repeat-x;
+  left: 4%;
+  right: 4%;
+  bottom: 0;
   opacity: .9;
 }
 
-.city-back {
-  bottom: 18%;
-  background-image:
+.city-layer-back {
+  height: 42%;
+  background:
     linear-gradient(90deg,
-      transparent 0 2%, rgba(126,240,255,.18) 2% 4%, transparent 4% 9%, rgba(126,240,255,.16) 9% 13%, transparent 13% 18%,
-      rgba(126,240,255,.14) 18% 21%, transparent 21% 26%, rgba(126,240,255,.12) 26% 31%, transparent 31% 35%, rgba(126,240,255,.17) 35% 40%, transparent 40% 46%, rgba(126,240,255,.12) 46% 50%, transparent 50% 56%, rgba(126,240,255,.16) 56% 61%, transparent 61% 66%, rgba(126,240,255,.12) 66% 72%, transparent 72% 77%, rgba(126,240,255,.17) 77% 82%, transparent 82% 88%, rgba(126,240,255,.13) 88% 94%, transparent 94% 100%);
+      rgba(126,240,255,.14) 0 5%, transparent 5% 9%, rgba(126,240,255,.11) 9% 15%, transparent 15% 20%,
+      rgba(126,240,255,.16) 20% 27%, transparent 27% 33%, rgba(126,240,255,.10) 33% 39%, transparent 39% 46%,
+      rgba(126,240,255,.14) 46% 52%, transparent 52% 59%, rgba(126,240,255,.12) 59% 65%, transparent 65% 70%,
+      rgba(126,240,255,.15) 70% 77%, transparent 77% 84%, rgba(126,240,255,.11) 84% 91%, transparent 91% 100%);
   filter: blur(1px);
 }
 
-.city-front {
-  bottom: 11%;
-  height: 26%;
-  background-image:
+.city-layer-front {
+  height: 28%;
+  bottom: -4%;
+  background:
     linear-gradient(90deg,
-      rgba(126,240,255,.18) 0 6%, transparent 6% 13%, rgba(126,240,255,.16) 13% 18%, transparent 18% 27%,
-      rgba(126,240,255,.22) 27% 32%, transparent 32% 43%, rgba(126,240,255,.14) 43% 49%, transparent 49% 58%,
-      rgba(126,240,255,.2) 58% 63%, transparent 63% 73%, rgba(126,240,255,.16) 73% 79%, transparent 79% 88%, rgba(126,240,255,.14) 88% 94%, transparent 94% 100%);
+      transparent 0 4%, rgba(126,240,255,.22) 4% 10%, transparent 10% 18%,
+      rgba(126,240,255,.18) 18% 25%, transparent 25% 34%, rgba(126,240,255,.24) 34% 41%, transparent 41% 52%,
+      rgba(126,240,255,.16) 52% 59%, transparent 59% 69%, rgba(126,240,255,.20) 69% 77%, transparent 77% 86%, rgba(126,240,255,.18) 86% 94%, transparent 94% 100%);
 }
 
-.road-perspective-3d {
+.sim-road-wrap {
   position: absolute;
-  inset: 34% -8% -10%;
-  perspective: 980px;
+  inset: 26% -18% -8%;
+  z-index: 2;
+  perspective: 880px;
   transform-style: preserve-3d;
 }
 
-.road-surface {
+.sim-road {
   position: absolute;
   inset: 0;
-  transform: rotateX(72deg);
+  transform: rotateX(68deg);
   transform-origin: top center;
+  clip-path: polygon(42% 0, 58% 0, 78% 100%, 22% 100%);
   background:
-    linear-gradient(180deg, rgba(10, 20, 31, 0.14), rgba(5, 12, 20, 0.84)),
-    linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,0));
-  border-top: 2px solid rgba(126,240,255,.16);
-  box-shadow: inset 0 32px 36px rgba(126,240,255,.04);
+    linear-gradient(90deg, rgba(255,255,255,.06), transparent 18% 82%, rgba(255,255,255,.06)),
+    linear-gradient(180deg, rgba(20,50,68,.72), rgba(3,9,16,.96));
+  border-top: 2px solid rgba(126,240,255,.20);
+  box-shadow: inset 0 30px 38px rgba(126,240,255,.04), 0 0 36px rgba(0,0,0,.45);
 }
 
-.road-lines,
-.road-shoulder {
+.road-edge {
   position: absolute;
-  bottom: -12%;
-  height: 118%;
-  transform-origin: bottom center;
+  top: 3%;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, rgba(126,240,255,.6), rgba(126,240,255,0));
+  transform-origin: top;
+  opacity: .9;
 }
 
-.road-lines {
-  width: 8px;
-  background: repeating-linear-gradient(to top, rgba(255,255,255,.84) 0 44px, transparent 44px 90px);
-  filter: drop-shadow(0 0 12px rgba(255,255,255,.15));
-  animation: laneMove 1.25s linear infinite;
+.road-edge-left {
+  left: 35%;
+  transform: rotate(12deg);
 }
 
-.road-left {
-  left: 34%;
-  transform: perspective(700px) rotateX(67deg) rotateZ(11deg);
+.road-edge-right {
+  right: 35%;
+  transform: rotate(-12deg);
 }
 
-.road-center {
+.lane-stream {
+  position: absolute;
+  top: 4%;
+  bottom: -10%;
+  width: 7px;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,.82) 0 34px, transparent 34px 76px);
+  transform-origin: top;
+  opacity: .88;
+  animation: laneFlow 1.1s linear infinite;
+}
+
+.lane-stream-left {
+  left: 43%;
+  transform: rotate(5deg) scaleY(1.08);
+}
+
+.lane-stream-center {
   left: 50%;
-  width: 11px;
-  margin-left: -5px;
-  animation-duration: 1.05s;
-  transform: perspective(700px) rotateX(67deg);
+  transform: translateX(-50%);
+  width: 9px;
+  animation-duration: .95s;
 }
 
-.road-right {
-  right: 34%;
-  transform: perspective(700px) rotateX(67deg) rotateZ(-11deg);
+.lane-stream-right {
+  right: 43%;
+  transform: rotate(-5deg) scaleY(1.08);
 }
 
-.road-shoulder {
-  width: 20px;
-  background: linear-gradient(180deg, rgba(126,240,255,.24), rgba(126,240,255,0));
-}
-
-.shoulder-left {
-  left: 18%;
-  transform: perspective(700px) rotateX(67deg) rotateZ(16deg);
-}
-
-.shoulder-right {
-  right: 18%;
-  transform: perspective(700px) rotateX(67deg) rotateZ(-16deg);
-}
-
-.road-light {
+.road-glow {
   position: absolute;
-  top: -2%;
-  width: 3px;
-  height: 52%;
-  background: linear-gradient(180deg, rgba(126,240,255,.42), transparent);
-  opacity: .55;
-}
-
-.road-light-left { left: 24%; }
-.road-light-right { right: 24%; }
-
-.player-car-3d,
-.hazard-car,
-.hazard-object {
-  position: absolute;
-  transform-style: preserve-3d;
-}
-
-.player-car-3d {
   left: 50%;
-  bottom: 10%;
-  width: 148px;
-  height: 220px;
-  transform: translateX(-50%) rotateX(18deg);
-  z-index: 3;
+  bottom: 2%;
+  width: 32%;
+  height: 42%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at bottom, rgba(126,240,255,.16), transparent 70%);
+  filter: blur(12px);
 }
 
-.player-shadow,
-.hazard-shadow {
+.hazard-focus {
   position: absolute;
-  inset: auto 18px 20px 18px;
-  height: 28px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,0,0,.7), transparent 70%);
-  filter: blur(7px);
-  transform: translateZ(-10px);
+  z-index: 6;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  width: min(78%, 420px);
+  min-height: 112px;
+  padding: 16px 18px 16px 108px;
+  border: 1px solid rgba(255,209,102,.38);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 12% 50%, rgba(255,209,102,.26), transparent 32%),
+    rgba(4, 18, 31, .72);
+  box-shadow: 0 20px 55px rgba(0,0,0,.28), 0 0 45px rgba(255,209,102,.12);
+  backdrop-filter: blur(14px);
+  text-align: right;
 }
 
-.player-body {
+.hazard-beacon {
   position: absolute;
-  inset: 24px 28px 22px;
-  border-radius: 32px 32px 42px 42px;
-  background: linear-gradient(180deg, #f7feff 0%, #77ebff 38%, #2d78a3 68%, #17405b 100%);
-  box-shadow: inset 0 2px 18px rgba(255,255,255,.35), 0 18px 40px rgba(0,0,0,.35);
-}
-
-.player-roof {
-  position: absolute;
-  inset: 52px 42px 78px;
+  left: 18px;
+  top: 50%;
+  width: 72px;
+  height: 72px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(233,249,255,.95), rgba(136,230,255,.45));
-  border: 1px solid rgba(255,255,255,.35);
+  background: linear-gradient(135deg, rgba(255,209,102,.98), rgba(255,246,185,.92));
+  color: #211402;
+  font-size: 38px;
+  font-weight: 900;
+  box-shadow: 0 0 0 10px rgba(255,209,102,.10), 0 0 36px rgba(255,209,102,.45);
+  animation: hazardPulse 1.15s ease-in-out infinite alternate;
 }
 
-.player-window {
-  position: absolute;
-  inset: 66px 50px 90px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, rgba(6,30,52,.85), rgba(21,88,122,.72));
+.hazard-focus strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #fff6cc;
+  font-size: clamp(18px, 3.8vw, 34px);
+  line-height: 1.05;
 }
 
-.player-light {
-  position: absolute;
-  bottom: 30px;
-  width: 18px;
-  height: 28px;
-  border-radius: 18px;
-  background: linear-gradient(180deg, #fff9d2, #ffd979);
-  box-shadow: 0 0 24px rgba(255,223,118,.55);
+.hazard-focus small {
+  display: block;
+  color: rgba(238,251,255,.78);
+  font-size: clamp(12px, 1.6vw, 16px);
+  line-height: 1.45;
 }
 
-.player-light.left { left: 34px; }
-.player-light.right { right: 34px; }
-
-.wheel {
+.scene-model {
   position: absolute;
-  width: 16px;
-  height: 34px;
+  z-index: 5;
+  display: none;
+}
+
+.model-signal {
+  left: 18%;
+  top: 36%;
+  width: 70px;
+  height: 150px;
+}
+
+.signal-pole {
+  position: absolute;
+  left: 50%;
+  top: 48px;
+  width: 8px;
+  height: 100px;
+  transform: translateX(-50%);
   border-radius: 10px;
-  background: linear-gradient(180deg, #0f1216, #31363d);
+  background: linear-gradient(180deg, rgba(126,240,255,.42), rgba(126,240,255,.06));
+}
+
+.signal-box {
+  position: absolute;
+  inset: 0 14px 72px;
+  display: grid;
+  gap: 5px;
+  padding: 8px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(5,16,25,.9);
+  box-shadow: 0 12px 32px rgba(0,0,0,.35);
+}
+
+.signal-box i {
+  border-radius: 50%;
+  background: rgba(255,255,255,.16);
+}
+
+.signal-box i:nth-child(1) { background: #ff5263; box-shadow: 0 0 16px #ff5263; }
+.signal-box i:nth-child(2) { background: #ffd166; box-shadow: 0 0 18px #ffd166; }
+.signal-box i:nth-child(3) { background: #55ff9f; box-shadow: 0 0 12px #55ff9f; }
+
+.model-pedestrian {
+  left: 18%;
+  top: 48%;
+  width: 74px;
+  height: 124px;
+}
+
+.person-head {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fff6cc;
+  box-shadow: 0 0 18px rgba(255,246,204,.35);
+}
+
+.person-body {
+  width: 30px;
+  height: 50px;
+  margin: 4px auto 0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--cyan), #2383b2);
+}
+
+.person-leg {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  width: 12px;
+  height: 48px;
+  border-radius: 12px;
+  background: #85dfff;
+  transform-origin: top;
+}
+
+.person-leg.l1 { transform: translateX(-16px) rotate(14deg); }
+.person-leg.l2 { transform: translateX(4px) rotate(-14deg); }
+
+.model-phone {
+  left: 16%;
+  top: 44%;
+}
+
+.phone-card {
+  width: 134px;
+  padding: 14px;
+  border-radius: 22px;
+  color: white;
+  font-weight: 900;
+  text-align: center;
+  background: linear-gradient(135deg, #315dff, #7ef0ff);
+  box-shadow: 0 22px 44px rgba(49,93,255,.25);
+}
+
+.model-school {
+  right: 16%;
+  top: 43%;
+}
+
+.school-sign,
+.exit-board,
+.seatbelt-model {
+  padding: 16px 18px;
+  border-radius: 20px;
+  font-weight: 950;
+  color: #07131d;
+  background: linear-gradient(135deg, #ffd166, #fff2a8);
+  box-shadow: 0 18px 40px rgba(255,209,102,.24);
+}
+
+.model-rain {
+  display: none;
+  inset: 0;
+  pointer-events: none;
+  z-index: 7;
+}
+
+.model-rain span {
+  position: absolute;
+  top: -14%;
+  width: 3px;
+  height: 36%;
+  border-radius: 99px;
+  background: linear-gradient(180deg, transparent, rgba(200,244,255,.55), transparent);
+  transform: rotate(16deg);
+  animation: rainFall .85s linear infinite;
+}
+
+.model-rain span:nth-child(1) { left: 16%; animation-delay: -.1s; }
+.model-rain span:nth-child(2) { left: 32%; animation-delay: -.5s; }
+.model-rain span:nth-child(3) { left: 54%; animation-delay: -.25s; }
+.model-rain span:nth-child(4) { left: 72%; animation-delay: -.7s; }
+.model-rain span:nth-child(5) { left: 88%; animation-delay: -.35s; }
+
+.model-emergency {
+  right: 16%;
+  top: 46%;
+  width: 112px;
+  height: 72px;
+}
+
+.siren-car {
+  width: 100%;
+  height: 100%;
+  border-radius: 22px 28px 20px 20px;
+  background: linear-gradient(180deg, #fff, #85eaff 54%, #2d75a4);
+  box-shadow: 0 16px 36px rgba(126,240,255,.22);
+}
+
+.siren-car::before {
+  content: "";
+  position: absolute;
+  left: 38%;
+  top: -10px;
+  width: 28px;
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #ff5263, #54a9ff);
+  box-shadow: 0 0 22px rgba(255,82,99,.55);
+}
+
+.model-exit {
+  right: 14%;
+  top: 42%;
+}
+
+.model-seatbelt {
+  left: 50%;
+  top: 42%;
+  transform: translateX(-50%);
+}
+
+.seatbelt-model {
+  width: 94px;
+  height: 94px;
+  display: grid;
+  place-items: center;
+  border-radius: 30px;
+  font-size: 48px;
+  color: #07131d;
+}
+
+.front-car-model {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: 2%;
+  width: min(34vw, 230px);
+  min-width: 120px;
+  aspect-ratio: .72;
+  transform: translateX(-50%);
+}
+
+.car-shadow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 3%;
+  height: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,0,0,.75), transparent 70%);
+  filter: blur(8px);
+}
+
+.car-hood {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 13%;
+  height: 56%;
+  border-radius: 34% 34% 20% 20%;
+  background: linear-gradient(180deg, #eaffff 0%, #83efff 42%, #327ba0 100%);
+  box-shadow: inset 0 2px 18px rgba(255,255,255,.48), 0 18px 40px rgba(0,0,0,.35);
+}
+
+.car-cabin {
+  position: absolute;
+  left: 27%;
+  right: 27%;
+  bottom: 46%;
+  height: 28%;
+  border-radius: 38% 38% 26% 26%;
+  background: linear-gradient(180deg, #f8feff, #86e8ff);
+  box-shadow: inset 0 -10px 18px rgba(25,93,125,.22);
+}
+
+.car-glass {
+  position: absolute;
+  left: 38%;
+  right: 38%;
+  bottom: 52%;
+  height: 15%;
+  border-radius: 40%;
+  background: linear-gradient(180deg, rgba(1,24,40,.78), rgba(31,118,153,.62));
+}
+
+.car-grille {
+  position: absolute;
+  left: 43%;
+  right: 43%;
+  bottom: 23%;
+  height: 14%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(5,30,43,.74), rgba(21,87,111,.56));
+}
+
+.car-light {
+  position: absolute;
+  bottom: 18%;
+  width: 17%;
+  height: 14%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff6c8, #ffd166);
+  box-shadow: 0 0 30px rgba(255, 209, 102, .55);
+}
+
+.car-light.left { left: 24%; }
+.car-light.right { right: 24%; }
+
+.car-wheel {
+  position: absolute;
+  width: 12%;
+  height: 28%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #161c24, #353c45);
   box-shadow: inset 0 0 0 2px rgba(255,255,255,.08);
 }
 
-.wheel-fl { top: 56px; left: 18px; }
-.wheel-fr { top: 56px; right: 18px; }
-.wheel-rl { bottom: 44px; left: 14px; }
-.wheel-rr { bottom: 44px; right: 14px; }
+.car-wheel.w1 { left: 11%; bottom: 17%; }
+.car-wheel.w2 { right: 11%; bottom: 17%; }
 
-.hazard-car {
-  left: 50%;
+.scenario-scene[data-theme="phone"] .model-phone,
+.scenario-scene[data-theme="pedestrian"] .model-pedestrian,
+.scenario-scene[data-theme="signal"] .model-signal,
+.scenario-scene[data-theme="school"] .model-school,
+.scenario-scene[data-theme="rain"] .model-rain,
+.scenario-scene[data-theme="emergency"] .model-emergency,
+.scenario-scene[data-theme="exit"] .model-exit,
+.scenario-scene[data-theme="seatbelt"] .model-seatbelt {
+  display: block;
+}
+
+.scenario-scene[data-theme="rain"] {
+  background:
+    radial-gradient(circle at 50% 6%, rgba(126,240,255,.10), transparent 32%),
+    linear-gradient(180deg, #07172a 0%, #03101e 48%, #02070d 100%);
+}
+
+.scenario-scene[data-theme="carstop"] .hazard-focus {
   top: 16%;
-  width: 80px;
-  height: 128px;
-  transform: translateX(-50%) rotateX(18deg) scale(.88);
-  z-index: 2;
-  opacity: .92;
 }
 
-.hazard-body {
-  position: absolute;
-  inset: 20px 14px 18px;
-  border-radius: 20px 20px 28px 28px;
-  background: linear-gradient(180deg, #ff9ea7, #ff6071 46%, #8b1d2e 100%);
-  box-shadow: 0 10px 26px rgba(0,0,0,.35);
-}
-
-.hazard-window {
-  position: absolute;
-  inset: 34px 24px 56px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(40,20,25,.85), rgba(90,40,55,.65));
-}
-
-.hazard-lights {
-  position: absolute;
-  inset: auto 20px 22px;
-  height: 10px;
-  border-radius: 99px;
-  background: linear-gradient(90deg, #ffd666, #ffe8a5, #ffd666);
-  box-shadow: 0 0 14px rgba(255,222,102,.55);
-}
-
-.hazard-object {
-  left: 26%;
-  top: 18%;
-  width: 74px;
-  height: 98px;
-  transform: rotateX(18deg);
-  z-index: 2;
-}
-
-.hazard-core {
-  position: absolute;
-  inset: 12px 10px 14px;
-  border-radius: 22px;
-  background: linear-gradient(180deg, rgba(255,209,102,.18), rgba(255,209,102,.04));
-  border: 1px solid rgba(255,209,102,.25);
-  box-shadow: 0 0 26px rgba(255,209,102,.18);
-}
-
-.hazard-icon {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 40px;
-  filter: drop-shadow(0 0 10px rgba(255,209,102,.35));
-}
-
-.scenario-scene[data-theme="phone"] .hazard-object { left: 30%; top: 20%; }
-.scenario-scene[data-theme="pedestrian"] .hazard-object { left: 24%; top: 14%; }
-.scenario-scene[data-theme="pedestrian"] .hazard-icon { font-size: 42px; }
-.scenario-scene[data-theme="carstop"] .hazard-object { display: none; }
-.scenario-scene[data-theme="signal"] .hazard-object { left: 22%; top: 12%; }
-.scenario-scene[data-theme="school"] .hazard-object { left: 23%; top: 14%; }
-.scenario-scene[data-theme="rain"] .scene-sky { background: linear-gradient(180deg, #09203a 0%, #051220 60%, #03101b 100%); }
-.scenario-scene[data-theme="rain"] .scene-sky::after {
+.scenario-scene[data-theme="carstop"] .front-car-model::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(100deg, rgba(255,255,255,.14) 0 2px, transparent 2px 18px);
-  opacity: .28;
-  animation: rainShift .8s linear infinite;
+  left: 50%;
+  top: -28%;
+  width: 36%;
+  height: 32%;
+  transform: translateX(-50%);
+  border-radius: 18px 18px 22px 22px;
+  background: linear-gradient(180deg, #ff9ba4, #ff596b 58%, #7c1e2a);
+  box-shadow: 0 14px 30px rgba(0,0,0,.32), 0 0 20px rgba(255,82,99,.22);
 }
-.scenario-scene[data-theme="emergency"] .hazard-car .hazard-body { background: linear-gradient(180deg, #f4fbff, #7eefff 42%, #266b9a 100%); }
-.scenario-scene[data-theme="emergency"] .hazard-lights { background: linear-gradient(90deg, #ff6b6b, #7ef0ff, #ff6b6b); }
-.scenario-scene[data-theme="exit"] .hazard-object { left: 29%; top: 15%; }
-.scenario-scene[data-theme="seatbelt"] .hazard-car { display: none; }
-.scenario-scene[data-theme="seatbelt"] .hazard-object { left: 50%; top: 17%; transform: translateX(-50%) rotateX(18deg); }
 
 .scenario-copy {
   padding-inline: 6px;
@@ -901,14 +1112,14 @@ h1 {
 
 .scenario-copy h2 {
   font-size: clamp(24px, 3.4vw, 46px);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .scenarioText {
   margin: 0;
   color: var(--muted);
   font-size: clamp(15px, 1.8vw, 20px);
-  line-height: 1.7;
+  line-height: 1.62;
 }
 
 .choice-grid {
@@ -918,8 +1129,8 @@ h1 {
 }
 
 .choice-btn {
-  min-height: 72px;
-  padding: 10px 10px 8px;
+  min-height: 68px;
+  padding: 9px 8px 7px;
   border-radius: 18px;
   color: var(--text);
   text-align: center;
@@ -935,16 +1146,16 @@ h1 {
 
 .choice-btn strong {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   font-size: clamp(12px, 1.28vw, 17px);
-  line-height: 1.35;
+  line-height: 1.3;
 }
 
 .choice-btn span {
   display: block;
   color: var(--muted);
   font-size: clamp(10px, .98vw, 12px);
-  line-height: 1.35;
+  line-height: 1.32;
 }
 
 .choice-btn.correct {
@@ -959,7 +1170,7 @@ h1 {
 
 .feedback-card {
   display: none;
-  padding: 14px 18px;
+  padding: 12px 16px;
   border-radius: 18px;
   border: 1px solid rgba(126, 240, 255, 0.14);
   background: rgba(0,0,0,0.22);
@@ -972,20 +1183,31 @@ h1 {
 
 .feedback-card strong {
   display: block;
-  margin-bottom: 4px;
-  font-size: 18px;
+  margin-bottom: 3px;
+  font-size: 17px;
 }
 
 .feedback-card p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.6;
+  line-height: 1.55;
   font-size: 14px;
 }
 
+/* Results: scrollable but stable */
+#resultScreen {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: max(18px, var(--safe-bottom));
+  overscroll-behavior: contain;
+}
+
 .result-card {
+  min-height: min-content;
+  height: auto;
   display: grid;
-  grid-template-rows: auto auto auto auto auto;
+  grid-template-rows: auto;
   gap: 14px;
 }
 
@@ -1047,11 +1269,11 @@ h1 {
 .result-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 9px;
 }
 
 .result-stats div {
-  padding: 14px;
+  padding: 13px;
   border-radius: 18px;
   background: rgba(255,255,255,0.055);
   border: 1px solid rgba(126, 240, 255, 0.12);
@@ -1059,7 +1281,7 @@ h1 {
 
 .result-stats span {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
   color: var(--muted);
   font-size: 13px;
 }
@@ -1136,8 +1358,9 @@ body.game-mode .topbar,
 
 @keyframes roadRun { to { background-position-y: 58px; } }
 @keyframes alertFloat { from { transform: translateY(0); } to { transform: translateY(-14px); } }
-@keyframes laneMove { from { background-position-y: 0; } to { background-position-y: -90px; } }
-@keyframes rainShift { from { transform: translateY(-10px); } to { transform: translateY(26px); } }
+@keyframes laneFlow { from { background-position-y: 0; } to { background-position-y: 76px; } }
+@keyframes hazardPulse { from { transform: translateY(-50%) scale(.98); } to { transform: translateY(-50%) scale(1.06); } }
+@keyframes rainFall { from { transform: translateY(-20px) rotate(16deg); } to { transform: translateY(320px) rotate(16deg); } }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
 
 @media (max-width: 1100px) {
@@ -1173,7 +1396,7 @@ body.game-mode .topbar,
   .result-card,
   .hero-panel,
   .game-stage {
-    padding: 16px;
+    padding: 14px;
   }
 
   .scenario-copy h2 {
@@ -1185,7 +1408,7 @@ body.game-mode .topbar,
   }
 
   .choice-btn {
-    min-height: 68px;
+    min-height: 64px;
     padding: 8px 6px 6px;
   }
 
@@ -1198,9 +1421,13 @@ body.game-mode .topbar,
     font-size: 21px;
   }
 
-  .player-car-3d {
-    width: 122px;
-    height: 188px;
+  .hazard-focus {
+    top: 18%;
+    width: min(74%, 390px);
+  }
+
+  .front-car-model {
+    width: min(38vw, 205px);
   }
 }
 
@@ -1245,13 +1472,20 @@ body.game-mode .topbar,
     inset: calc(86px + var(--safe-top)) 8px calc(8px + var(--safe-bottom));
   }
 
+  .game-stage {
+    grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+    gap: 7px;
+    padding: 8px;
+  }
+
   .game-stage-top {
     gap: 6px;
   }
 
   .stage-badge {
-    padding: 8px 10px;
+    padding: 7px 10px;
     font-size: 12px;
+    min-width: 72px;
   }
 
   .player-badge {
@@ -1260,78 +1494,135 @@ body.game-mode .topbar,
 
   .scene-overlay-top {
     gap: 6px;
-    left: 10px;
-    right: 10px;
+    left: 8px;
+    right: 8px;
+    top: 8px;
   }
 
   .scene-pill {
-    font-size: 11px;
-    padding: 8px 10px;
+    font-size: 10px;
+    padding: 7px 9px;
   }
 
   .timer-ring.in-scene {
-    top: 10px;
-    left: 10px;
-    width: 72px;
-    height: 72px;
+    top: 8px;
+    left: 8px;
+    width: 68px;
+    height: 68px;
   }
 
   .timer-ring strong {
-    font-size: 19px;
+    font-size: 18px;
   }
 
   .scene-panel {
     border-radius: 20px;
   }
 
-  .road-perspective-3d {
-    inset: 28% -14% -6%;
+  .sim-road-wrap {
+    inset: 23% -30% -4%;
   }
 
-  .player-car-3d {
-    width: 104px;
-    height: 162px;
-    bottom: 9%;
+  .hazard-focus {
+    top: 15%;
+    width: min(84%, 360px);
+    min-height: 88px;
+    padding: 12px 14px 12px 82px;
+    border-radius: 22px;
   }
 
-  .hazard-car {
-    width: 64px;
-    height: 98px;
+  .hazard-beacon {
+    left: 12px;
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    font-size: 28px;
   }
 
-  .hazard-object {
-    width: 58px;
-    height: 80px;
+  .hazard-focus strong {
+    font-size: clamp(17px, 5vw, 25px);
   }
 
-  .hazard-icon {
-    font-size: 30px;
+  .hazard-focus small {
+    font-size: 11px;
+  }
+
+  .front-car-model {
+    width: min(42vw, 160px);
+    min-width: 112px;
+    bottom: 0;
+  }
+
+  .model-signal {
+    left: 11%;
+    top: 39%;
+    transform: scale(.82);
+    transform-origin: top left;
+  }
+
+  .model-pedestrian {
+    left: 12%;
+    top: 50%;
+    transform: scale(.82);
+    transform-origin: top left;
+  }
+
+  .model-phone {
+    left: 9%;
+    top: 47%;
+    transform: scale(.82);
+    transform-origin: top left;
+  }
+
+  .model-school,
+  .model-emergency,
+  .model-exit {
+    right: 9%;
+    transform: scale(.82);
+    transform-origin: top right;
+  }
+
+  .scenario-copy h2 {
+    font-size: clamp(20px, 5.8vw, 28px);
+    margin-bottom: 3px;
   }
 
   .scenarioText {
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.45;
   }
 
   .choice-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+  }
+
+  .choice-btn {
+    min-height: 58px;
+    border-radius: 15px;
+    padding: 7px 4px 5px;
   }
 
   .choice-btn strong {
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1.25;
   }
 
   .choice-btn span {
-    font-size: 9px;
+    font-size: 8px;
+    line-height: 1.25;
   }
 
   .feedback-card {
-    padding: 10px 12px;
+    padding: 9px 11px;
   }
 
-  .feedback-card p { font-size: 12px; }
+  .feedback-card strong { font-size: 14px; }
+  .feedback-card p { font-size: 11px; }
 
   .result-card {
     padding: 16px 14px;
+    margin-bottom: 14px;
   }
 
   .score-orb {
@@ -1359,5 +1650,93 @@ body.game-mode .topbar,
     min-height: 48px;
     border-radius: 15px;
     padding: 0 16px;
+  }
+}
+
+@media (max-height: 720px) and (orientation: portrait) {
+  .game-stage {
+    gap: 5px;
+  }
+
+  .stage-badge {
+    padding-block: 6px;
+  }
+
+  .scenario-copy h2 {
+    font-size: 20px;
+  }
+
+  .scenarioText {
+    display: none;
+  }
+
+  .choice-btn {
+    min-height: 54px;
+  }
+
+  .feedback-card {
+    padding-block: 7px;
+  }
+}
+
+@media (max-height: 440px) and (orientation: landscape) {
+  .game-stage {
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .scenario-copy {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .scenario-copy h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .scenarioText {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .choice-btn {
+    min-height: 48px;
+  }
+
+  .choice-btn strong {
+    font-size: 9px;
+  }
+
+  .choice-btn span {
+    display: none;
+  }
+
+  .hazard-focus {
+    top: 10%;
+    min-height: 74px;
+    padding: 10px 12px 10px 74px;
+  }
+
+  .hazard-beacon {
+    width: 52px;
+    height: 52px;
+    font-size: 26px;
+  }
+
+  .front-car-model {
+    width: min(22vw, 130px);
+  }
+
+  .timer-ring.in-scene {
+    width: 58px;
+    height: 58px;
+  }
+
+  .timer-ring strong {
+    font-size: 15px;
   }
 }

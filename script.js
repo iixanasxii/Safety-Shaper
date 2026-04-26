@@ -6,7 +6,7 @@
     totalRounds: 8,
     feedbackDelayMs: 1350,
     leaderboardLimit: 5,
-    storageKey: "safety-shaper-leaderboard-v2"
+    storageKey: "safety-shaper-leaderboard-v5"
   };
 
   const SCENARIOS = [
@@ -17,6 +17,7 @@
       riskIcon: "📱",
       theme: "phone",
       riskLabel: "تشتيت انتباه",
+      visualHint: "الجوال يسحب انتباهك عن الطريق",
       choices: [
         { label: "أترك الجوال وأزيد الانتباه للطريق", hint: "القرار الأكثر أمانًا", score: 100, safe: true, feedback: "ممتاز. الإشعار ينتظر، لكن الطريق لا ينتظر." },
         { label: "أرد بسرعة وأنا ماسك المقود", hint: "ثانية واحدة قد تكلف كثيرًا", score: 15, feedback: "استخدام الجوال أثناء القيادة يرفع احتمالية الخطأ بشكل كبير." },
@@ -31,6 +32,7 @@
       riskIcon: "🚶",
       theme: "pedestrian",
       riskLabel: "مشاة قريبون",
+      visualHint: "شخص يقترب من خط العبور",
       choices: [
         { label: "أخفف السرعة وأتوقف بأمان", hint: "أولوية المشاة", score: 100, safe: true, feedback: "قرار صحيح. احترام ممر المشاة يحمي الجميع." },
         { label: "أستخدم البوري عشان ينتبه", hint: "تصرف مربك", score: 25, feedback: "التنبيه لا يغني عن التوقف وإعطاء الأولوية." },
@@ -45,6 +47,7 @@
       riskIcon: "🚗",
       theme: "carstop",
       riskLabel: "توقف مفاجئ",
+      visualHint: "السيارة الأمامية تبطئ أمامك",
       choices: [
         { label: "أفرمل تدريجيًا وأحافظ على المسار", hint: "سيطرة وهدوء", score: 100, safe: true, feedback: "ممتاز. الهدوء ومسافة الأمان يعطيانك وقتًا للتصرف." },
         { label: "ألتف بقوة لليمين فورًا", hint: "قد تدخل على مركبة أخرى", score: 20, feedback: "الالتفاف المفاجئ قد يحول موقفًا واحدًا إلى حادث أكبر." },
@@ -59,6 +62,7 @@
       riskIcon: "🚦",
       theme: "signal",
       riskLabel: "تقاطع أمامك",
+      visualHint: "الإشارة صفراء قبل وصولك",
       choices: [
         { label: "أهدئ وأستعد للتوقف قبل التقاطع", hint: "قرار آمن", score: 100, safe: true, feedback: "صحيح. الأصفر يعني الاستعداد للتوقف عندما يكون ذلك آمنًا." },
         { label: "أزيد السرعة لألحق الإشارة", hint: "سباق غير ضروري", score: 10, feedback: "زيادة السرعة عند التقاطع ترفع احتمالية الاصطدام." },
@@ -73,6 +77,7 @@
       riskIcon: "🏫",
       theme: "school",
       riskLabel: "منطقة مدارس",
+      visualHint: "خفف السرعة وراقب الجانبين",
       choices: [
         { label: "أخفض السرعة وأراقب الجانبين", hint: "سلامة استباقية", score: 100, safe: true, feedback: "ممتاز. في مناطق المدارس، الخطر قد يظهر فجأة." },
         { label: "أستمر بنفس السرعة لأن الطريق فاضي", hint: "افتراض خطير", score: 25, feedback: "هدوء الطريق لا يعني خلوه من المخاطر." },
@@ -87,6 +92,7 @@
       riskIcon: "🌧",
       theme: "rain",
       riskLabel: "سطح زلق",
+      visualHint: "الطريق يحتاج مسافة أطول",
       choices: [
         { label: "أخفف السرعة وأزيد المسافة", hint: "أفضل تصرف", score: 100, safe: true, feedback: "قرار ممتاز. الطريق المبلل يحتاج مسافة توقف أطول." },
         { label: "أستخدم الأنوار العالية طوال الوقت", hint: "قد تزعج الآخرين", score: 35, feedback: "الأفضل استخدام إضاءة مناسبة دون إبهار السائقين." },
@@ -101,6 +107,7 @@
       riskIcon: "🚑",
       theme: "emergency",
       riskLabel: "طوارئ قادمة",
+      visualHint: "افسح المسار بأمان",
       choices: [
         { label: "أفسح الطريق بهدوء عندما يكون ذلك آمنًا", hint: "قرار مسؤول", score: 100, safe: true, feedback: "ممتاز. إفساح الطريق للطوارئ قد ينقذ حياة." },
         { label: "أتوقف فجأة في منتصف المسار", hint: "خطر على الجميع", score: 15, feedback: "التوقف المفاجئ قد يربك السائقين ويعطل مركبة الطوارئ." },
@@ -115,6 +122,7 @@
       riskIcon: "↗",
       theme: "exit",
       riskLabel: "قرار متأخر",
+      visualHint: "لا تقطع المسارات فجأة",
       choices: [
         { label: "أكمل للطريق التالي بدل المخاطرة", hint: "قرار ناضج", score: 100, safe: true, feedback: "ممتاز. تفويت مخرج أفضل من حادث." },
         { label: "أقطع المسارات بسرعة", hint: "خطر كبير", score: 0, feedback: "قطع المسارات في آخر لحظة من أخطر السلوكيات." },
@@ -129,6 +137,7 @@
       riskIcon: "🔒",
       theme: "seatbelt",
       riskLabel: "سلامة داخل المركبة",
+      visualHint: "الحزام قبل الحركة",
       choices: [
         { label: "لا أتحرك حتى يربط الجميع الحزام", hint: "سلامة قبل الحركة", score: 100, safe: true, feedback: "صحيح. السلامة تبدأ قبل تشغيل السيارة." },
         { label: "أتحرك ببطء وأطلب منه يربطه لاحقًا", hint: "خطر قائم", score: 35, feedback: "حتى السرعات البطيئة قد تكون خطرة بدون حزام." },
@@ -182,6 +191,8 @@
     feedbackText: $("#feedbackText"),
     scenarioScene: $("#scenarioScene"),
     dynamicRisk: $("#dynamicRisk"),
+    hazardSceneTitle: $("#hazardSceneTitle"),
+    hazardSceneHint: $("#hazardSceneHint"),
     finalPercent: $("#finalPercent"),
     resultTitle: $("#resultTitle"),
     resultMessage: $("#resultMessage"),
@@ -240,6 +251,8 @@
     els.scenarioTitle.textContent = scenario.title;
     els.scenarioText.textContent = scenario.text;
     els.dynamicRisk.textContent = scenario.riskIcon || "⚠";
+    els.hazardSceneTitle.textContent = scenario.riskLabel || scenario.type || "خطر أمامك";
+    els.hazardSceneHint.textContent = scenario.visualHint || "اتخذ القرار الآمن الآن";
     els.scenarioScene.dataset.theme = scenario.theme || "generic";
     els.feedbackCard.classList.remove("show");
     els.feedbackTitle.textContent = "";
@@ -493,7 +506,7 @@
   function registerServiceWorker() {
     if (!("serviceWorker" in navigator)) return;
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("service-worker.js?v=4").catch(() => {});
+      navigator.serviceWorker.register("service-worker.js?v=5").catch(() => {});
     });
   }
 

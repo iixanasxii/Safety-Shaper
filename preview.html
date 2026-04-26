@@ -161,6 +161,7 @@
 
       <div class="row-controls">
         <button id="reloadFrame">إعادة تحميل</button>
+        <button id="clearSwCache">مسح الكاش</button>
         <a class="ctrl" href="index.html" target="_blank" rel="noopener">فتح الصفحة مباشرة</a>
       </div>
 
@@ -171,7 +172,7 @@
 
     <section class="stage" id="stage">
       <div class="device" id="device" style="--w: 390px; --h: 844px;">
-        <iframe id="previewFrame" src="index.html?v=4" title="Safety Shaper game preview"></iframe>
+        <iframe id="previewFrame" src="index.html?v=5" title="Safety Shaper game preview"></iframe>
       </div>
     </section>
   </main>
@@ -182,6 +183,7 @@
     const frame = document.getElementById("previewFrame");
     const buttons = [...document.querySelectorAll(".device-buttons button")];
     const reloadBtn = document.getElementById("reloadFrame");
+    const clearBtn = document.getElementById("clearSwCache");
 
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -202,6 +204,18 @@
     });
 
     reloadBtn.addEventListener("click", () => {
+      frame.src = `index.html?v=${Date.now()}`;
+    });
+
+    clearBtn.addEventListener("click", async () => {
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((key) => caches.delete(key)));
+      }
+      if ("serviceWorker" in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((reg) => reg.unregister()));
+      }
       frame.src = `index.html?v=${Date.now()}`;
     });
   </script>
