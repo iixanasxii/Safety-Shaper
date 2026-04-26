@@ -2,11 +2,11 @@
   "use strict";
 
   const CONFIG = {
-    roundSeconds: 3.2,
+    roundSeconds: 5,
     totalRounds: 8,
     feedbackDelayMs: 1250,
     leaderboardLimit: 5,
-    storageKey: "safety-shaper-leaderboard-v1"
+    storageKey: "safety-shaper-leaderboard-v2"
   };
 
   const SCENARIOS = [
@@ -191,11 +191,9 @@
     Object.values(screens).forEach((screen) => screen.classList.remove("active"));
     screens[name].classList.add("active");
 
-    document.body.classList.toggle("is-game", name === "game");
-    document.body.classList.toggle("is-result", name === "result");
-
-    // Keep booth devices stable: no old scroll position, no side drifting.
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    const isPlaying = name === "game";
+    document.body.classList.toggle("is-playing", isPlaying);
+    document.getElementById("appShell")?.classList.toggle("game-mode", isPlaying);
   }
 
   function shuffle(items) {

@@ -1479,406 +1479,282 @@ h1 {
   }
 }
 
-/* ------------------------------------------------------------------
-   Stability + fullscreen game mode patch
-   Prevents horizontal drifting on iPad/mobile and makes gameplay occupy
-   the screen independently from the landing header.
-------------------------------------------------------------------- */
-html,
-body {
+
+/* ================================================================
+   BOOTH FULLSCREEN GAME MODE - 2026-04-27
+================================================================ */
+
+html, body {
   width: 100%;
   max-width: 100%;
-  height: 100%;
+  min-height: 100%;
+  margin: 0;
   overflow-x: hidden !important;
   overscroll-behavior-x: none;
-  touch-action: pan-y;
 }
 
-body {
-  position: relative;
-}
-
-.app-shell,
-.screen,
-.hero-panel,
-.modal-card,
-.result-card,
-.game-layout,
-.status-panel,
-.challenge-card,
-.choice-grid,
-.choice-btn,
-.scenario-scene {
-  max-width: 100%;
-  min-width: 0;
-}
-
-.app-shell {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden !important;
-}
-
-.ambient,
-.grid-floor,
-.road-perspective,
-.scene-road {
-  pointer-events: none;
-  max-width: none;
-}
-
-/* Normal screens may scroll vertically, never horizontally. */
-@media (max-width: 980px) {
-  html,
-  body {
-    overflow-x: hidden !important;
-  }
-
-  body:not(.is-game) {
-    overflow-y: auto;
-  }
-
-  .app-shell {
-    overflow-x: hidden !important;
-  }
-}
-
-/* Gameplay becomes a dedicated full-screen canvas. */
-body.is-game {
-  overflow: hidden !important;
-  height: 100dvh;
-  background: var(--bg);
-}
-
-body.is-game .app-shell {
-  width: 100dvw;
-  height: 100dvh;
-  min-height: 100dvh;
-  padding: 0;
-  overflow: hidden !important;
-}
-
-body.is-game .topbar {
-  display: none;
-}
-
-body.is-game .screen {
-  inset: auto;
-}
-
-body.is-game #gameScreen.screen.active {
+body.is-playing {
   position: fixed;
   inset: 0;
-  width: 100dvw;
+  width: 100vw;
   height: 100dvh;
-  max-width: 100dvw;
-  max-height: 100dvh;
-  display: block;
-  opacity: 1;
-  transform: none;
-  padding: calc(10px + env(safe-area-inset-top)) calc(10px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));
-  overflow: hidden;
-  z-index: 20;
+  overflow: hidden !important;
+  touch-action: manipulation;
 }
 
-body.is-game .game-layout {
+body.is-playing .app-shell {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
+  padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+  overflow: hidden !important;
+}
+
+.app-shell, .screen, .hero-panel, .modal-card, .result-card, .challenge-card, .scenario-scene, .choice-grid, .choice-btn {
+  max-width: 100%;
+}
+
+body.is-playing .topbar,
+body.is-playing .ambient,
+body.is-playing .grid-floor,
+body.is-playing .status-panel {
+  display: none !important;
+}
+
+body.is-playing #gameScreen {
+  position: fixed !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100vw;
+  height: 100dvh;
+  padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+  opacity: 1;
+  transform: none !important;
+  overflow: hidden !important;
+}
+
+body.is-playing .game-layout {
   width: 100%;
   height: 100%;
-  max-height: 100%;
-  display: grid;
-  grid-template-columns: minmax(235px, 285px) minmax(0, 1fr);
-  gap: clamp(8px, 1.4vw, 18px);
+  display: block;
   overflow: hidden;
 }
 
-body.is-game .status-panel,
-body.is-game .challenge-card {
-  min-height: 0;
-  overflow: hidden;
-}
-
-body.is-game .status-panel {
-  padding: clamp(10px, 1.5vw, 18px);
-  gap: clamp(8px, 1vw, 14px);
-}
-
-body.is-game .stat-block,
-body.is-game .safety-meter,
-body.is-game .mini-tip {
-  padding: clamp(10px, 1.4vw, 16px);
-  border-radius: clamp(16px, 2vw, 22px);
-}
-
-body.is-game .stat-block strong {
-  font-size: clamp(18px, 2.2vw, 25px);
-}
-
-body.is-game .challenge-card {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1fr);
-  grid-template-areas:
-    "scene timer"
-    "scene type"
-    "scene title"
-    "scene text"
-    "scene choices"
-    "feedback feedback";
-  gap: clamp(8px, 1.3vw, 16px) clamp(12px, 1.8vw, 24px);
-  padding: clamp(12px, 1.8vw, 26px);
-}
-
-body.is-game .timer-ring {
-  width: clamp(78px, 10vw, 116px);
-  height: clamp(78px, 10vw, 116px);
-}
-
-body.is-game .scenario-scene {
+body.is-playing .challenge-card {
+  width: 100%;
   height: 100%;
   min-height: 0;
-}
-
-body.is-game .challenge-card h2 {
-  font-size: clamp(28px, 4.3vw, 58px);
-  line-height: 1.08;
-  overflow-wrap: anywhere;
-}
-
-body.is-game .scenarioText {
-  font-size: clamp(15px, 1.9vw, 23px);
-  line-height: 1.55;
-}
-
-body.is-game .choice-grid {
+  padding: clamp(8px, 1.2vw, 14px);
+  border-radius: clamp(16px, 2.2vw, 28px);
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(8px, 1.2vw, 14px);
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  grid-template-areas:
+    "scene"
+    "type"
+    "title"
+    "choices";
+  gap: clamp(5px, 1vh, 10px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 0%, rgba(126,240,255,.12), transparent 36%),
+    linear-gradient(135deg, rgba(10, 39, 61, .92), rgba(5, 20, 34, .9));
 }
 
-body.is-game .choice-btn {
-  min-height: clamp(74px, 12vh, 104px);
-  padding: clamp(12px, 1.6vw, 18px);
+body.is-playing .scenario-scene {
+  grid-area: scene;
+  min-height: 0 !important;
+  height: 100%;
+  width: 100%;
+  border-radius: clamp(16px, 2.2vw, 28px);
+  box-shadow: inset 0 0 70px rgba(126,240,255,.08), 0 18px 60px rgba(0,0,0,.34);
+  isolation: isolate;
+}
+
+body.is-playing .scenario-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 11%, rgba(126,240,255,.10) 11.2% 11.6%, transparent 11.8% 24%, rgba(126,240,255,.09) 24.2% 24.6%, transparent 25% 100%),
+    radial-gradient(circle at 50% 18%, rgba(126,240,255,.18), transparent 23%),
+    linear-gradient(180deg, rgba(84,169,255,.12), transparent 60%);
+  opacity: .95;
+  z-index: 0;
+}
+
+body.is-playing .scenario-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0 52%, rgba(0,0,0,.32));
+  pointer-events: none;
+  z-index: 5;
+}
+
+body.is-playing .scene-sky { inset: 0 0 42%; z-index: 1; }
+
+body.is-playing .scene-road {
+  z-index: 2;
+  inset: 34% -8% -22%;
+  transform: perspective(820px) rotateX(60deg);
+}
+
+body.is-playing .dash { animation-duration: .82s; }
+
+body.is-playing .player-car-mini {
+  width: clamp(66px, 10vw, 112px);
+  height: clamp(98px, 15vw, 162px);
+  bottom: 8%;
+  z-index: 4;
+}
+
+body.is-playing .dynamic-risk {
+  width: clamp(54px, 8vw, 88px);
+  height: clamp(54px, 8vw, 88px);
+  font-size: clamp(26px, 4vw, 42px);
+  left: 22%;
+  top: 12%;
+  z-index: 4;
+  animation: alertFloat 1.05s ease-in-out infinite alternate;
+}
+
+body.is-playing .timer-ring {
+  position: absolute !important;
+  top: clamp(10px, 2vw, 18px);
+  left: clamp(10px, 2vw, 18px);
+  width: clamp(62px, 9vw, 96px);
+  height: clamp(62px, 9vw, 96px);
+  z-index: 10;
+  border-radius: 999px;
+  background: rgba(3, 14, 24, .58);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 35px rgba(0,0,0,.28), inset 0 0 26px rgba(126,240,255,.08);
+}
+
+body.is-playing .timer-ring strong { font-size: clamp(17px, 2.7vw, 25px); }
+body.is-playing .timer-bg, body.is-playing .timer-progress { stroke-width: 9; }
+
+body.is-playing .scenario-type {
+  grid-area: type;
+  margin: 0;
+  font-size: clamp(10px, 1.6vw, 14px);
+  letter-spacing: .05em;
+  opacity: .9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.is-playing .challenge-card h2 {
+  grid-area: title;
+  margin: 0;
+  font-size: clamp(17px, 3.7vw, 34px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.is-playing .scenarioText { display: none !important; }
+
+body.is-playing .choice-grid {
+  grid-area: choices;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(5px, .9vw, 10px);
+  margin: 0;
+  align-self: stretch;
   overflow: hidden;
 }
 
-body.is-game .choice-btn strong,
-body.is-game .choice-btn span {
-  overflow-wrap: anywhere;
+body.is-playing .choice-btn {
+  min-width: 0;
+  min-height: clamp(50px, 10vh, 74px);
+  height: clamp(50px, 10vh, 74px);
+  padding: clamp(7px, 1.3vw, 12px);
+  border-radius: clamp(12px, 1.8vw, 18px);
+  text-align: center;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
 }
 
-/* iPad portrait and medium screens: compact top status, game stays full-screen. */
-@media (max-width: 920px) {
-  body.is-game #gameScreen.screen.active {
-    padding: calc(8px + env(safe-area-inset-top)) calc(8px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(8px + env(safe-area-inset-left));
-  }
-
-  body.is-game .game-layout {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 8px;
-  }
-
-  body.is-game .status-panel {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: stretch;
-    padding: 8px;
-    gap: 8px;
-  }
-
-  body.is-game .mini-tip {
-    display: none;
-  }
-
-  body.is-game .stat-block,
-  body.is-game .safety-meter {
-    padding: 9px;
-    border-radius: 16px;
-  }
-
-  body.is-game .stat-block span,
-  body.is-game .meter-head span {
-    font-size: 11px;
-    margin-bottom: 3px;
-  }
-
-  body.is-game .stat-block strong,
-  body.is-game .meter-head strong {
-    font-size: 17px;
-  }
-
-  body.is-game .meter-track {
-    height: 8px;
-  }
-
-  body.is-game .challenge-card {
-    grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1fr);
-    grid-template-areas:
-      "scene timer"
-      "scene type"
-      "scene title"
-      "scene text"
-      "scene choices"
-      "feedback feedback";
-    padding: 12px;
-    gap: 9px 14px;
-    overflow: hidden;
-  }
-
-  body.is-game .scenario-scene {
-    min-height: 0;
-  }
-
-  body.is-game .choice-btn {
-    min-height: 74px;
-  }
+body.is-playing .choice-btn strong {
+  margin: 0;
+  font-size: clamp(10px, 2.2vw, 17px);
+  line-height: 1.18;
+  letter-spacing: -.02em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Phones: prioritize the playable content, remove decorative scene, allow vertical scroll inside the game card only. */
-@media (max-width: 620px) {
-  html,
-  body,
-  .app-shell {
-    max-width: 100vw;
-  }
+body.is-playing .choice-btn span { display: none !important; }
 
-  body.is-game .status-panel {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+body.is-playing .feedback-card {
+  position: absolute;
+  z-index: 20;
+  left: clamp(10px, 2vw, 18px);
+  right: clamp(10px, 2vw, 18px);
+  bottom: calc(clamp(58px, 11vh, 82px) + max(18px, env(safe-area-inset-bottom)));
+  padding: clamp(10px, 1.6vw, 16px);
+  border-radius: clamp(14px, 2vw, 22px);
+  background: rgba(3, 14, 24, .80);
+  backdrop-filter: blur(16px);
+}
 
-  body.is-game .safety-meter {
-    grid-column: 1 / -1;
-  }
+body.is-playing .feedback-card strong {
+  font-size: clamp(14px, 2.4vw, 20px);
+  margin-bottom: 2px;
+}
 
-  body.is-game .challenge-card {
-    grid-template-columns: 1fr;
+body.is-playing .feedback-card p {
+  font-size: clamp(12px, 2vw, 16px);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  body.is-playing .challenge-card {
+    grid-template-rows: minmax(0, 1fr) auto auto;
     grid-template-areas:
-      "timer"
-      "type"
+      "scene"
       "title"
-      "text"
-      "choices"
-      "feedback";
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 12px;
+      "choices";
+    gap: 4px;
   }
 
-  body.is-game .challenge-card::-webkit-scrollbar {
-    display: none;
+  body.is-playing .scenario-type { display: none; }
+  body.is-playing .challenge-card h2 { font-size: clamp(16px, 3vw, 24px); }
+
+  body.is-playing .choice-btn {
+    height: clamp(42px, 16vh, 58px);
+    min-height: clamp(42px, 16vh, 58px);
   }
 
-  body.is-game .scenario-scene {
-    display: none;
-  }
-
-  body.is-game .timer-ring {
-    justify-self: center;
-    width: 68px;
-    height: 68px;
-  }
-
-  body.is-game .timer-ring strong {
-    font-size: 16px;
-  }
-
-  body.is-game .scenario-type {
-    text-align: center;
-    font-size: 11px;
-  }
-
-  body.is-game .challenge-card h2 {
-    text-align: center;
-    font-size: clamp(24px, 7.2vw, 34px);
-  }
-
-  body.is-game .scenarioText {
-    text-align: center;
-    font-size: 14px;
-    line-height: 1.45;
-  }
-
-  body.is-game .choice-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  body.is-game .choice-btn {
-    min-height: 64px;
-    padding: 11px 12px;
-    border-radius: 16px;
-  }
-
-  body.is-game .choice-btn strong {
-    font-size: 15px;
-  }
-
-  body.is-game .choice-btn span {
-    font-size: 11px;
-    line-height: 1.35;
-  }
-
-  body.is-game .feedback-card {
-    padding: 12px;
+  body.is-playing .choice-btn strong {
+    font-size: clamp(9px, 1.65vw, 14px);
+    -webkit-line-clamp: 2;
   }
 }
 
-/* Short landscape phones: everything fits without horizontal scroll. */
-@media (max-height: 540px) and (orientation: landscape) {
-  body.is-game .status-panel {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+@media (orientation: portrait) and (max-width: 520px) {
+  body.is-playing .choice-btn strong {
+    font-size: clamp(9px, 2.55vw, 13px);
+    -webkit-line-clamp: 3;
   }
 
-  body.is-game .safety-meter {
-    grid-column: auto;
-  }
-
-  body.is-game .challenge-card {
-    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
-    grid-template-areas:
-      "timer type"
-      "timer title"
-      "feedback text"
-      "feedback choices";
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  body.is-game .scenario-scene {
-    display: none;
-  }
-
-  body.is-game .timer-ring {
-    align-self: start;
-    justify-self: center;
-    width: 62px;
-    height: 62px;
-  }
-
-  body.is-game .challenge-card h2 {
-    font-size: clamp(22px, 4vw, 32px);
-  }
-
-  body.is-game .scenarioText {
-    font-size: 13px;
-    line-height: 1.35;
-  }
-
-  body.is-game .choice-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  body.is-game .choice-btn {
-    min-height: 54px;
-    padding: 9px 10px;
-  }
-
-  body.is-game .choice-btn strong {
-    font-size: 13px;
-  }
-
-  body.is-game .choice-btn span {
-    display: none;
+  body.is-playing .choice-btn {
+    min-height: clamp(54px, 8.5vh, 68px);
+    height: clamp(54px, 8.5vh, 68px);
   }
 }

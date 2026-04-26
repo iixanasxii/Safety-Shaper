@@ -1,4 +1,4 @@
-const CACHE_NAME = "safety-shaper-v2-stable-screen";
+const CACHE_NAME = "safety-shaper-v5-fullscreen";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
