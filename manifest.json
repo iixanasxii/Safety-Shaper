@@ -1,6 +1,6 @@
 {
-  "name": "Safety Shaper - قرار في ثانية",
-  "short_name": "Safety Shaper",
+  "name": "صانع السلامة - قرار في ثانية",
+  "short_name": "صانع السلامة",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#06131f",
@@ -9,5 +9,5 @@
   "lang": "ar",
   "dir": "rtl",
   "icons": [],
-  "description": "Mobile and iPad booth game for traffic safety awareness."
+  "description": "لعبة بوث تفاعلية للتوعية بالسلامة المرورية على الجوال والآيباد."
 }

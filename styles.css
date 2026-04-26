@@ -1707,3 +1707,218 @@ body.game-mode .topbar,
     font-size: 15px;
   }
 }
+
+
+/* v7 exact fixes */
+#startScreen,
+#howScreen {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: max(18px, var(--safe-bottom));
+}
+
+/* keep home content viewable on small landscape screens */
+#startScreen .hero-panel {
+  min-height: min-content;
+}
+
+/* remove distracting dark transparent city bars and extra transparent lines */
+.sim-city,
+.city-layer-back,
+.city-layer-front,
+.road-edge,
+.road-glow {
+  display: none !important;
+}
+
+.sim-sky {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(126,240,255,.22), transparent 34%),
+    linear-gradient(180deg, rgba(9,43,72,.95) 0%, rgba(3,18,32,.72) 62%, rgba(3,18,32,0) 100%);
+}
+
+/* make road cleaner and less cluttered */
+.sim-road-wrap {
+  inset: 22% -20% -7%;
+}
+
+.sim-road {
+  background:
+    linear-gradient(180deg, rgba(17,48,67,.72), rgba(3,9,16,.96));
+}
+
+.lane-stream {
+  opacity: .72;
+}
+
+/* use emoji models instead of CSS shapes */
+.model-signal,
+.model-pedestrian,
+.model-emergency {
+  width: auto;
+  height: auto;
+  filter: drop-shadow(0 12px 22px rgba(0,0,0,.35));
+}
+
+.model-signal .signal-pole,
+.model-signal .signal-box,
+.model-pedestrian .person-head,
+.model-pedestrian .person-body,
+.model-pedestrian .person-leg,
+.model-emergency .siren-car {
+  display: none !important;
+}
+
+.model-signal::before,
+.model-pedestrian::before,
+.model-emergency::before {
+  display: block;
+  font-size: clamp(46px, 11vw, 82px);
+  line-height: 1;
+}
+
+.model-signal::before {
+  content: "🚦";
+}
+
+.model-pedestrian::before {
+  content: "🚶";
+}
+
+.model-emergency::before {
+  content: "🚑";
+}
+
+.model-signal {
+  left: 14%;
+  top: 45%;
+}
+
+.model-pedestrian {
+  left: 13%;
+  top: 49%;
+}
+
+.model-emergency {
+  right: 12%;
+  top: 47%;
+}
+
+/* Arabic emoji labels */
+.phone-card {
+  min-width: 140px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.school-sign,
+.exit-board {
+  direction: rtl;
+  white-space: nowrap;
+  font-size: clamp(17px, 3.2vw, 24px);
+}
+
+/* use the new car image cleanly */
+.front-car-model {
+  width: min(36vw, 260px);
+  min-width: 136px;
+  background-image: url("./assets/car-top-view.png");
+}
+
+/* make front/lead car larger in sudden-stop scenario */
+.scenario-scene[data-theme="carstop"] .front-car-model::before {
+  top: -36%;
+  width: 52%;
+  aspect-ratio: 337 / 421;
+  background-image: url("./assets/car-top-view.png");
+  filter: hue-rotate(112deg) saturate(1.2) brightness(1.02) drop-shadow(0 14px 28px rgba(0,0,0,.38));
+}
+
+.scenario-scene[data-theme="carstop"] .front-car-model::after {
+  top: -15%;
+  left: 30%;
+  right: 30%;
+}
+
+/* Arabic-only result spacing */
+.result-logo-row span,
+.result-card,
+.choice-btn,
+.scene-pill,
+.stage-badge {
+  direction: rtl;
+}
+
+@media (max-width: 900px) {
+  .front-car-model {
+    width: min(41vw, 230px);
+  }
+
+  .scenario-scene[data-theme="carstop"] .front-car-model::before {
+    width: 56%;
+    top: -37%;
+  }
+}
+
+@media (max-width: 680px) {
+  .front-car-model {
+    width: min(45vw, 178px);
+    min-width: 120px;
+  }
+
+  .scenario-scene[data-theme="carstop"] .front-car-model::before {
+    width: 58%;
+    top: -39%;
+  }
+
+  .model-signal {
+    left: 11%;
+    top: 46%;
+    transform: none;
+  }
+
+  .model-pedestrian {
+    left: 11%;
+    top: 50%;
+    transform: none;
+  }
+
+  .model-emergency {
+    right: 10%;
+    top: 48%;
+    transform: none;
+  }
+
+  .model-signal::before,
+  .model-pedestrian::before,
+  .model-emergency::before {
+    font-size: clamp(42px, 13vw, 64px);
+  }
+
+  .phone-card {
+    min-width: 128px;
+    font-size: 15px;
+  }
+
+  .school-sign,
+  .exit-board {
+    font-size: 16px;
+  }
+}
+
+@media (max-height: 440px) and (orientation: landscape) {
+  #startScreen .hero-panel {
+    height: auto;
+  }
+
+  .front-car-model {
+    width: min(24vw, 150px);
+  }
+
+  .scenario-scene[data-theme="carstop"] .front-car-model::before {
+    width: 54%;
+    top: -35%;
+  }
+}
