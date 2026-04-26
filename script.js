@@ -6,7 +6,7 @@
     totalRounds: 8,
     feedbackDelayMs: 1350,
     leaderboardLimit: 5,
-    storageKey: "safety-shaper-leaderboard-v7"
+    storageKey: "safety-shaper-leaderboard-v8"
   };
 
   const SCENARIOS = [
@@ -416,28 +416,28 @@
   function getRank(percent) {
     if (percent >= 90) {
       return {
-        title: "أنت صانع السلامة محترف",
-        short: "صانع سلامة محترف",
+        title: "أنت Safety Shaper محترف",
+        short: "Elite Shaper",
         message: "قراراتك سريعة وواعية. هذا هو مستوى السلامة الذي تُبنى عليه مدن المستقبل."
       };
     }
     if (percent >= 75) {
       return {
-        title: "أنت صانع السلامة",
-        short: "صانع السلامة",
+        title: "أنت Safety Shaper",
+        short: "Safety Shaper",
         message: "أداؤك ممتاز. انتبه للتفاصيل الصغيرة، لأنها تصنع الفرق الكبير على الطريق."
       };
     }
     if (percent >= 55) {
       return {
-        title: "قريب من مستوى صانع السلامة",
-        short: "صانع سلامة صاعد",
+        title: "قريب من مستوى Safety Shaper",
+        short: "Rising Shaper",
         message: "لديك وعي جيد، لكن بعض القرارات تحتاج هدوءًا وتوقعًا أعلى للمخاطر."
       };
     }
     return {
       title: "حاول مرة ثانية",
-      short: "بناء الوعي",
+      short: "Awareness Builder",
       message: "البداية الجيدة هي الوعي. جرّب مرة ثانية وركز على القرار الآمن قبل القرار السريع."
     };
   }
@@ -483,7 +483,7 @@
   }
 
   async function copyResult() {
-    const text = `${state.playerName} حقق ${els.finalPercent.textContent} في تحدي صانع السلامة — قرار في ثانية.`;
+    const text = `${state.playerName} حقق ${els.finalPercent.textContent} في تحدي Safety Shaper — قرار في ثانية.`;
     try {
       await navigator.clipboard.writeText(text);
       els.copyResultBtn.textContent = "تم النسخ";
@@ -506,7 +506,7 @@
   function registerServiceWorker() {
     if (!("serviceWorker" in navigator)) return;
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("service-worker.js?v=7").catch(() => {});
+      navigator.serviceWorker.register("service-worker.js?v=8").catch(() => {});
     });
   }
 
