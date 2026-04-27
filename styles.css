@@ -1784,7 +1784,7 @@ body.game-mode .topbar,
 }
 
 .model-pedestrian::before {
-  content: "🚶";
+  content: "🚶🏻‍♂️‍➡️";
 }
 
 .model-emergency::before {
